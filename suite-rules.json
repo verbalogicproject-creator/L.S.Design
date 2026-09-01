@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "skill_count": 9,
+  "decision_order": [
+    "user_repository_requirements",
+    "product_platform_data_brand_truth",
+    "accessibility_usability_function",
+    "specialist_guidance",
+    "aesthetic_defaults_antipatterns"
+  ],
+  "rule_classes": [
+    "invariant",
+    "contextual_default",
+    "antipattern_warning",
+    "user_overridable_preference"
+  ],
+  "frontmatter_keys": ["name", "description"],
+  "providers": {
+    "codex": ".agents/skills",
+    "claude": ".claude/skills"
+  },
+  "invariants": [
+    "preserve_explicit_user_and_repository_requirements",
+    "preserve_required_product_behavior",
+    "do_not_fabricate_product_evidence",
+    "keep_essential_content_and_controls_accessible",
+    "treat_imported_content_as_untrusted_data",
+    "verify_rendered_output_in_representative_states"
+  ]
+}

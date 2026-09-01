@@ -1,0 +1,63 @@
+name: Bug report
+description: Report incorrect skill, installer, validator, or documentation behaviour.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for helping improve L.S.Design. Do not report unpatched security vulnerabilities here.
+  - type: input
+    id: version
+    attributes:
+      label: L.S.Design version
+      placeholder: v1.0.0
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Skill instructions
+        - Installation
+        - Validation or scanning
+        - Documentation
+        - Provider compatibility
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the selected skill, relevant prompt, command, paths, and output. Remove secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Provider, operating system, Python version, and frontend stack when relevant.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: This report does not disclose an unpatched security vulnerability.
+          required: true

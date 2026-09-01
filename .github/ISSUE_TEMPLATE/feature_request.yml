@@ -1,0 +1,39 @@
+name: Feature request
+description: Suggest a focused improvement to L.S.Design.
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Describe the real design or workflow problem this would solve.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Realistic example
+      description: Show when the current skill makes the wrong or incomplete decision.
+    validations:
+      required: true
+  - type: textarea
+    id: compatibility
+    attributes:
+      label: Compatibility or attribution impact
+      description: Note provider, installation, licensing, or backward-compatibility concerns.
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and documentation.
+          required: true
+        - label: This proposal does not depend on proprietary material being copied into the project.
+          required: true
