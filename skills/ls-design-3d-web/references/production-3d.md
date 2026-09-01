@@ -16,6 +16,19 @@ Use the fewest lights and post-processing passes that achieve the art direction.
 
 Primary reference: [Three.js color management](https://threejs.org/manual/en/color-management.html).
 
+## Product-scene craft
+
+Make the object understandable before making the scene spectacular. Establish a readable silhouette, credible scale, useful view, grounded contact, and lighting that reveals the materials. Use environmental context, annotations, or synchronized DOM controls when they explain construction, configuration, or use.
+
+- Prefer a guided camera range for product inspection when unrestricted orbiting adds no value. Provide a visible reset and never rely on drag alone.
+- Use physically richer materials selectively. Sheen can support woven fabric and anisotropy can support brushed metal, but both need final-lighting review and measured performance. See [Three.js `MeshPhysicalMaterial`](https://threejs.org/docs/pages/MeshPhysicalMaterial.html).
+- Bloom and emissive edges imply luminous energy. Use them only when the object or art direction supplies that source; do not use post-processing as a default premium treatment.
+- Avoid constant rotation, particle fields, deep parallax, and camera drift unless they communicate state, construction, sound, or another product-specific behavior.
+- Distinguish CSS or SVG depth from a real renderer. Choose the cheaper representation when it communicates equally well; do not describe a transformed illustration as an interactive 3D model.
+- Keep the page composition useful around the scene. A canvas is media, not a replacement for semantic product content.
+
+For mostly static product viewers, render when interaction, animation, assets, camera, material, or container state changes rather than maintaining an idle loop. See [Three.js rendering on demand](https://threejs.org/manual/en/rendering-on-demand.html) and [React Three Fiber scaling performance](https://r3f.docs.pmnd.rs/advanced/scaling-performance).
+
 ## Adaptive quality
 
 Create scene-specific tiers, for example:

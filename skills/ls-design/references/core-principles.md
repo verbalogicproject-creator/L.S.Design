@@ -31,9 +31,13 @@ Begin with semantic roles: canvas, surface, text, muted text, border, accent, su
 
 Effects such as glass, grain, blur, gradients, glow, and deep shadow are materials. Use only those that support the premise and remain performant and legible.
 
+Read [natural color and humanization](natural-color-and-humanization.md) when establishing a palette, translating physical materials, or checking a direction for generic trend convergence.
+
 ## Layout variety
 
 Create rhythm through controlled contrast: dense then open, aligned then offset, text-led then image-led, static then interactive. Variety should clarify the narrative. Do not randomize structure or alternate patterns mechanically.
+
+Read [advanced layout decisions](advanced-layout.md) when composition requires subgrid, container-aware behavior, editorial shapes, overlays, runtime packing, layout animation, or a hybrid DOM and spatial surface.
 
 ## Motion
 

@@ -52,3 +52,5 @@ For multi-surface work, establish the shared direction here, then apply the rele
 - Existing brand fonts, colors, components, and product behavior are preserved unless change is in scope.
 
 Read [references/core-principles.md](references/core-principles.md) when setting a new direction, resolving conflicting rules, or reviewing more than one surface.
+
+For palette evidence and the required specificity check, read [references/natural-color-and-humanization.md](references/natural-color-and-humanization.md). For complex composition or layout-library selection, read [references/advanced-layout.md](references/advanced-layout.md).

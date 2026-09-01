@@ -107,6 +107,30 @@ def validate() -> list[str]:
                     errors.append(f"{markdown}: broken relative link {match.group(1)!r}")
             if re.search(r"\b(TODO|TBD|PLACEHOLDER)\b", text, re.IGNORECASE):
                 errors.append(f"{markdown}: unfinished scaffold marker")
+
+    for reference_name, contract in rules.get("shared_references", {}).items():
+        relative = Path(contract.get("path", ""))
+        reference = (ROOT / relative).resolve()
+        if not reference.is_file():
+            errors.append(f"shared reference {reference_name!r} is missing: {relative}")
+            continue
+
+        for skill_name in contract.get("consumers", []):
+            skill_file = SKILLS / skill_name / "SKILL.md"
+            if not skill_file.is_file():
+                errors.append(
+                    f"shared reference {reference_name!r} has unknown consumer {skill_name!r}"
+                )
+                continue
+
+            linked: set[Path] = set()
+            text = skill_file.read_text(encoding="utf-8")
+            for match in LINK_RE.finditer(text):
+                target = match.group(1).split("#", 1)[0]
+                if target:
+                    linked.add((skill_file.parent / target).resolve())
+            if reference not in linked:
+                errors.append(f"{skill_file}: must link shared reference {reference_name!r}")
     return errors
 
 

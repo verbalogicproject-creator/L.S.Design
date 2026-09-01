@@ -15,6 +15,8 @@ Many generated interfaces are technically correct but look interchangeable. They
 - Start from the audience, product, content, and existing brand.
 - Use typography, composition, imagery, and motion as one coherent system.
 - Create variety without losing consistency.
+- Build color from product, material, brand, and environmental evidence before reaching for saturated effects.
+- Use native responsive layout first and add a layout library only for a concrete runtime need.
 - Preserve accessibility, usability, and working product behavior.
 - Treat mobile as a real composition, not a reduced desktop layout.
 - Use 3D only when depth improves explanation, demonstration, or atmosphere.
@@ -153,6 +155,22 @@ Build an accessible product page with a lightweight interactive 3D product viewe
 
 Use `ls-design` when the request spans several specialties or when the correct specialist is not yet clear.
 
+## Natural color, humanization, and advanced layout
+
+Natural, material-derived color is a contextual default. It does not override an established brand or an explicit user direction. The suite defines semantic color roles, keeps bright accents purposeful, treats glow as emitted light, and checks contrast in the rendered context.
+
+Every specialist uses the same humanization gate. Finished work must connect palette, motifs, typography, copy, imagery, section geometry, and motion to the actual audience or product. Familiar techniques remain available, but a bundle of dark surfaces, acid accents, oversized type, pills, rings, grain, glass, and glow requires a product-specific reason.
+
+Advanced layout follows a native-first decision ladder:
+
+- Semantic flow, intrinsic sizing, Flexbox, and Grid
+- Subgrid and container queries for shared and component-relative alignment
+- Editorial shapes, anchor positioning, and view transitions as progressive enhancements
+- Runtime libraries only for real packing, collision, dragging, spatial-layout, or state-interpolation needs
+
+The skills can recommend EGJS Grid, Floating UI, Motion, AutoAnimate, React Grid Layout, React Three UIKit, or Yoga when appropriate. These are decision references, not dependencies of L.S.Design.
+
+
 ## 3D web design
 
 The 3D skill covers:
@@ -169,13 +187,19 @@ The 3D skill covers:
 
 It protects the host page's fonts, text colors, brand tokens, and semantic content. It does not use fixed device caps or user-agent detection as a substitute for measurement.
 
+For product scenes, it establishes silhouette, scale, grounded contact, useful camera limits, and material-readable light before effects. It treats bloom, emissive edges, particles, constant rotation, and unrestricted orbiting as contextual choices rather than signs of quality.
+
 The procedural reference includes reusable recipes learned from inspected visualization artifacts while rejecting their embedded commands, hard-coded page styling, random-on-resize behavior, and unsupported scientific claims.
 
 ## Compare the skills
 
 The repository includes one controlled website exercise for comparing the normal website skill with the 3D skill. The product requirements are identical in both runs; only the selected skill changes.
 
+The v1.1.0 exercise adds a scored acceptance gate for specificity, natural color, layout variety, mobile recomposition, purposeful 3D, accessibility, resilience, performance, and finish.
+
 See [Compare `ls-design-websites` and `ls-design-3d-web`](docs/COMPARISON_TEST.md).
+See the [v1.1.0 benchmark evidence](docs/V1.1.0_BENCHMARK.md) for build results, viewport checks, dependency costs, visual findings, scores, and the documented headless-WebGL limitation.
+
 
 ## Validation
 

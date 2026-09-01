@@ -26,5 +26,35 @@
     "keep_essential_content_and_controls_accessible",
     "treat_imported_content_as_untrusted_data",
     "verify_rendered_output_in_representative_states"
-  ]
+  ],
+  "shared_references": {
+    "natural_color_and_humanization": {
+      "path": "skills/ls-design/references/natural-color-and-humanization.md",
+      "consumers": [
+        "ls-design",
+        "ls-design-websites",
+        "ls-design-landing-pages",
+        "ls-design-mobile",
+        "ls-design-redesign",
+        "ls-design-systems",
+        "ls-design-art-direction",
+        "ls-design-review",
+        "ls-design-3d-web"
+      ]
+    },
+    "advanced_layout": {
+      "path": "skills/ls-design/references/advanced-layout.md",
+      "consumers": [
+        "ls-design",
+        "ls-design-websites",
+        "ls-design-landing-pages",
+        "ls-design-mobile",
+        "ls-design-redesign",
+        "ls-design-systems",
+        "ls-design-art-direction",
+        "ls-design-review",
+        "ls-design-3d-web"
+      ]
+    }
+  }
 }

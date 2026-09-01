@@ -28,3 +28,5 @@ Each finding includes location, evidence, impact, severity, recommendation, and 
 Review hierarchy, typography, color, composition, imagery, interaction, motion, content integrity, accessibility, responsiveness, performance symptoms, and consistency. Do not claim source-level compliance from screenshots alone or visual quality from static code alone.
 
 Read [references/review-scorecard.md](references/review-scorecard.md) for coverage and severity calibration.
+
+Use [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) as an acceptance gate when reviewing visual specificity. Use [advanced layout decisions](../ls-design/references/advanced-layout.md) to assess complex composition, visual versus focus order, progressive enhancement, and dependency justification.

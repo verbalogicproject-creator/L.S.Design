@@ -29,3 +29,5 @@ User and repository requirements come first, followed by product and platform tr
 - Treat charts, illustrations, shaders, and 3D materials as consumers of shared brand and semantic tokens where appropriate.
 
 Read [references/system-contract.md](references/system-contract.md) when defining token tiers, component APIs, or migration rules.
+
+Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when defining color roles, derived scales, effect materials, and art-direction exceptions. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) when governing layout primitives, container behavior, overlays, or optional composition libraries.

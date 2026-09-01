@@ -35,3 +35,5 @@ User and repository requirements come first, followed by product and platform tr
 - Make haptics, animation, and sound supplementary and user-respectful.
 
 Read [references/platform-patterns.md](references/platform-patterns.md) for web/native differences and mobile validation states.
+
+Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when translating a visual direction to compact surfaces. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) for container-aware responsive web components or complex recomposition; native platform layout systems remain authoritative in native applications.

@@ -40,6 +40,27 @@ L.S.Design is an original synthesis. It does not bundle code, images, fonts, mod
 - Excluded: research claims, agent commands, `.ctx` payloads, page typography, hard-coded colors, CDN choices, random-on-resize behavior, and any assertion that the illustrations are benchmark evidence.
 - A scan found direct agent-oriented commands in legacy HTML and zero-width characters in `topology2.md`. These findings motivated the untrusted-content rules and scanner; none of that content has instruction authority in this suite.
 
+## Version 1.1 layout and color research
+
+The new shared references were developed from primary platform documentation. No documentation text, code, or package is bundled.
+
+- MDN references: CSS Grid subgrid, container queries, CSS shapes, anchor positioning, the View Transition API, OKLCH, and `color-mix()`.
+- Web rendering references: Three.js color management, `MeshPhysicalMaterial`, rendering on demand, and React Three Fiber performance guidance.
+
+## Conditional library research
+
+The advanced-layout reference evaluates these projects as optional tools selected inside a generated application:
+
+- EGJS Grid for runtime masonry, justified, packing, and frame layouts; MIT.
+- Floating UI for collision-aware overlay positioning; MIT.
+- Motion for React layout-state animation; MIT.
+- FormKit AutoAnimate for simple insertion, removal, and reorder continuity; MIT.
+- React Grid Layout for user-authored draggable dashboard layouts; MIT.
+- React Three UIKit and Yoga for spatial-interface layout. Yoga is MIT; verify the selected React Three UIKit package version and its license before adoption.
+- Radix Colors and Culori for optional color scales or programmatic color processing; MIT.
+
+These projects are cited as decision inputs only. L.S.Design has no Node.js runtime dependency, and generated projects must verify current versions, licenses, bundle effects, accessibility behavior, and fallbacks before installation.
+
 ## Authoritative guidance
 
 The reference files link to primary documentation from W3C, MDN, web.dev, Three.js, React Three Fiber, Drei, Khronos glTF, glTF Transform, model-viewer, and Spline. Those links are citations, not bundled dependencies. Version-sensitive behavior must be checked against the versions installed in the target project.

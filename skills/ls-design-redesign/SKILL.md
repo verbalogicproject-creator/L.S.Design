@@ -30,3 +30,5 @@ If the user requested only an audit, stop after evidence-backed findings and rec
 - Compare before and after at identical widths and states.
 
 Read [references/redesign-audit.md](references/redesign-audit.md) for the finding format, severity model, and completion checks.
+
+Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when the redesign targets generic styling, palette overuse, or loss of brand character. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) before replacing existing composition or introducing a layout dependency.

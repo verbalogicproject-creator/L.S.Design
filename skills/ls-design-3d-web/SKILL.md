@@ -61,6 +61,8 @@ If provenance is relevant, label the scene as measured, simulated, synthetic, or
 
 For procedural point clouds, height fields, topology views, and dataset transitions, read [references/procedural-spatial-artifacts.md](references/procedural-spatial-artifacts.md). For production rendering, assets, accessibility, and adaptive quality, read [references/production-3d.md](references/production-3d.md).
 
+Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when the scene establishes or extends the product's visual world. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) when DOM composition, spatial UI, overlays, or responsive scene framing require a layout system or dependency.
+
 ## Invariants
 
 - Do not use user-agent sniffing as the quality strategy.

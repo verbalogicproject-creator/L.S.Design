@@ -31,3 +31,5 @@ User and repository requirements come first, followed by product and brand truth
 - Treat mobile as a recomposition. Protect priority content and actions instead of preserving desktop geometry.
 
 For section rhythm, navigation patterns, and responsive completion checks, read [references/website-craft.md](references/website-craft.md).
+
+Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when establishing the visual world or checking whether repeated sections feel generated. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) for complex editorial composition, galleries, overlays, or a proposed layout dependency.

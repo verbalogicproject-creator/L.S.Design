@@ -31,3 +31,5 @@ User and repository requirements come first, followed by product and brand truth
 - Preserve campaign parameters and analytics behavior when redesigning an existing page.
 
 Read [references/conversion-narrative.md](references/conversion-narrative.md) when the content order, proof strategy, or conversion path is not already established.
+
+Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when the campaign lacks established art direction or begins to resemble a familiar trend bundle. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) when the narrative needs nonstandard composition, runtime media packing, overlays, or layout-state animation.

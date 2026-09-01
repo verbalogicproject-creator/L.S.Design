@@ -99,6 +99,41 @@ Open both results at the same viewport sizes and compare:
 | Resilience | Is the important content still available when visual enhancement fails? |
 | Performance | How much code, loading, and runtime work does the design require? |
 | Finish | Are all states, links, responsive layouts, and build checks complete? |
+| Natural color | Does the palette come from the product and keep bright accents purposeful? |
+| Humanization | Do copy, motifs, scale, and section geometry feel specific rather than formulaic? |
+| Spatial purpose | Does any 3D improve understanding or atmosphere enough to justify its cost? |
+
+## Controlled release run
+
+Run the release comparison with:
+
+- 360px, 768px, and 1440px viewport checks
+- Identical agent, model, reasoning level, permissions, package manager, time budget, and base prompt
+- Fresh folders with no shared source or dependency cache inside either project
+- A successful production build for both results
+- Keyboard, reduced-motion, loading, error, and renderer-fallback checks where applicable
+- Source inspection for remote assets, fabricated claims, dependencies, and meaningful DOM content
+
+## Release acceptance
+
+- Both production builds pass.
+- No blocking or high-severity accessibility, functional, overflow, or fallback defect remains.
+- Score each comparison area from 1 to 5. No area may score below 3, and each result must average at least 4.
+- No result depends on an ungrounded fluorescent palette, repeated decorative motif, or bundled trend formula.
+- Product language remains specific and within the supplied facts.
+- Every added dependency has a documented purpose, license check, accessibility behavior, fallback, and client-cost reason.
+- A renderer-based result remains useful without the renderer and uses spatial interaction for a clear purpose.
+
+## Record the result
+
+Store release evidence separately from the generated projects. Record:
+
+- Date, release version, prompt checksum, and project paths
+- Selected skill and unchanged generation settings
+- Toolchain and resolved dependency versions
+- Build, keyboard, reduced-motion, fallback, and viewport results
+- Scores with short observable evidence for every comparison area
+- Remaining risks, failed gates, and the decision to accept or revise the release
 
 ## Expected difference
 
@@ -107,3 +142,5 @@ The website skill should usually emphasize content architecture, responsive comp
 The 3D skill should decide whether a spatial product representation materially improves the page. If it uses 3D, it should also add measured quality control, semantic controls, loading and failure states, reduced motion, and a useful static fallback. It should not add 3D merely to make the implementation more complex.
 
 The exercise has no predetermined visual winner. A simpler result may be stronger if it communicates the product more clearly and reliably.
+
+The completed v1.1.0 run is recorded in [v1.1.0 benchmark evidence](V1.1.0_BENCHMARK.md).

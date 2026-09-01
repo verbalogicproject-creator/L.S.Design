@@ -29,3 +29,5 @@ User and repository requirements come first, followed by product and brand truth
 - Make visual variety intentional and content-led, never random.
 
 Read [references/direction-families.md](references/direction-families.md) when exploring alternatives or translating a visual reference into design principles.
+
+Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) before accepting a new visual world. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) when composition becomes a primary identity device or requires a layout dependency.
