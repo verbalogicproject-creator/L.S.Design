@@ -61,6 +61,36 @@ The advanced-layout reference evaluates these projects as optional tools selecte
 
 These projects are cited as decision inputs only. L.S.Design has no Node.js runtime dependency, and generated projects must verify current versions, licenses, bundle effects, accessibility behavior, and fallbacks before installation.
 
+## Version 2.0 studio dependencies
+
+The `studio/` package (`ls-design-studio`) is the only part of this repository with runtime dependencies. The skills themselves still have none. Each dependency below is installed by the studio's own `package.json`; none is vendored into this repository.
+
+| Package | License | Why it is here |
+|---|---|---|
+| `hono` | MIT | HTTP routing, static serving, and server-sent events for the local control room |
+| `@hono/node-server` | MIT | Node adapter for the above |
+| `@modelcontextprotocol/sdk` | MIT | The stdio MCP entry that a coding agent attaches to |
+| `zod` | MIT | One schema definition that serves runtime validation, TypeScript types, and the generated JSON Schema |
+| `yaml` | ISC | Round-tripping the design.md frontmatter without touching the prose |
+| `culori` | MIT | Parsing any CSS color, including OKLCH, for the WCAG contrast calculation |
+| `chokidar` | MIT | Noticing an external edit to DESIGN.md |
+| `playwright-core` | Apache-2.0 | Optional. Headless screenshots; the studio falls back to spawning a Chromium binary directly, and degrades to "screenshots unavailable" rather than failing a build |
+| `react`, `react-dom` | MIT | The control-room interface |
+| `vite`, `@vitejs/plugin-react` | MIT | Building that interface |
+| `typescript`, `vitest` | Apache-2.0, MIT | Type checking and tests |
+
+No browser binary is downloaded by this package. The screenshot module resolves an existing Chromium through the `LS_DESIGN_CHROMIUM` environment variable or a short list of standard paths.
+
+## Version 2.0 format and pattern research
+
+- **The public `design.md` format.** `design/DESIGN.md` is written to the publicly documented design.md specification — `name`, `description`, `colors`, `typography`, `rounded`, `spacing`, `components` — so the file stays readable by any tool that understands that format. The specification is a format, not code; nothing from it is bundled. Suite-specific state is deliberately kept out of the file and stored in `design.json` instead.
+- **W3C Design Tokens Community Group format.** Reviewed as a naming and structure influence for semantic role tokens. Not adopted as the on-disk format, because a second format would fragment the contract.
+- **Screen-generation services reached over MCP.** The orchestration protocol was developed against one such service and documents its call sequence — upload the token document, create a design system from it, apply it, then generate. No client, key, or code from any such service is included, and the studio works with agent-authored screens when no service is available.
+- **Impeccable** (already cited above) contributed the pattern of keeping the design document free of tool-specific stamps and storing extras in a sidecar, and the idea of a blocking local page where a person makes a decision the agent then reads.
+- **OpenDesign** (`nexu-io/open-design`, Apache-2.0). Reviewed as a pattern source only: the package contract of a manifest plus a design document plus a token stylesheet, one-command MCP registration, and a named workflow loop. No code, schema, or dependency was taken, and no adapter is committed.
+- **Material Design and the Apple Human Interface Guidelines** were the sources consulted for the bidirectional mirror and never-mirror list in the shared right-to-left reference. The list is a summary of documented platform behaviour, written in this project's own words.
+- **WCAG 2.1 and 2.2** define the contrast ratios and target sizes the contract verifies. The relative-luminance and contrast-ratio implementations in `studio/shared/contrast.ts` and in the generated preview are written from the published formulas.
+
 ## Authoritative guidance
 
 The reference files link to primary documentation from W3C, MDN, web.dev, Three.js, React Three Fiber, Drei, Khronos glTF, glTF Transform, model-viewer, and Spline. Those links are citations, not bundled dependencies. Version-sensitive behavior must be checked against the versions installed in the target project.

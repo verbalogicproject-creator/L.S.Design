@@ -1,0 +1,270 @@
+/*
+  tokens.template.css — L.S.Design design tokens
+  Generated from the frontmatter of design/DESIGN.md. Regenerate rather than hand-edit.
+
+  Naming: every custom property is prefixed --ls- so it never collides with a
+  framework's own theme namespace. A framework bridge maps these into the
+  framework's variables in design/tailwind.theme.css.
+
+  Directionality: logical CSS properties only. Any physical property carries a
+  physical-ok note on the same line with a reason. Shadows and gradients are the
+  standing justified exception because their offsets do not flip with direction.
+*/
+
+:root {
+  color-scheme: light;
+
+  /* Color — semantic roles, light */
+  --ls-color-background: #F7F5F2;
+  --ls-color-surface: #FFFFFF;
+  --ls-color-surface-raised: #FBFAF8;
+  --ls-color-content: #1A1917;
+  --ls-color-content-muted: #5C574F;
+  --ls-color-border: #E2DED6;          /* decorative hairline, deliberately subtle */
+  --ls-color-border-strong: #948D82;   /* control boundary, contrast-verified at 3:1 */
+  --ls-color-primary: #2F6F5E;
+  --ls-color-on-primary: #FFFFFF;
+  --ls-color-accent: #A0552A;
+  --ls-color-on-accent: #FFFFFF;
+  --ls-color-success: #2E7D52;
+  --ls-color-warning: #8A5D0F;
+  --ls-color-danger: #A33224;
+  --ls-color-focus: #2F6F5E;
+
+  /* Typography — role tokens */
+  --ls-font-display: "Fraunces", Georgia, serif;
+  --ls-font-body: "Inter", system-ui, sans-serif;
+  --ls-font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --ls-text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --ls-text-h1: clamp(1.875rem, 4vw, 2.75rem);
+  --ls-text-h2: 1.5rem;
+  --ls-text-h3: 1.1875rem;
+  --ls-text-body: 1.0625rem;
+  --ls-text-body-small: 0.9375rem;
+  --ls-text-caption: 0.8125rem;
+  --ls-text-label: 0.875rem;
+
+  --ls-weight-regular: 400;
+  --ls-weight-medium: 600;
+  --ls-weight-bold: 700;
+
+  --ls-leading-display: 1.05;
+  --ls-leading-heading: 1.25;
+  --ls-leading-body: 1.6;
+
+  --ls-tracking-display: -0.02em;
+  --ls-tracking-body: 0;
+
+  /* Spacing */
+  --ls-space-2xs: 0.25rem;
+  --ls-space-xs: 0.5rem;
+  --ls-space-sm: 1rem;
+  --ls-space-md: 1.5rem;
+  --ls-space-lg: 2.5rem;
+  --ls-space-xl: 4rem;
+  --ls-space-2xl: 6rem;
+
+  /* Radii */
+  --ls-radius-sm: 0.25rem;
+  --ls-radius-md: 0.625rem;
+  --ls-radius-lg: 1.25rem;
+  --ls-radius-full: 9999px;
+
+  /* Elevation — inline-symmetric offsets, correct in both reading directions */
+  --ls-shadow-raised: 0 1px 2px 0 rgb(0 0 0 / 0.06);
+  --ls-shadow-overlay: 0 12px 24px -6px rgb(0 0 0 / 0.14);
+
+  /* Motion */
+  --ls-duration-fast: 120ms;
+  --ls-duration-normal: 200ms;
+  --ls-duration-slow: 320ms;
+  --ls-easing-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Component tokens resolved from the roles above */
+  --ls-button-background: var(--ls-color-primary);
+  --ls-button-color: var(--ls-color-on-primary);
+  --ls-button-radius: var(--ls-radius-full);
+  --ls-card-background: var(--ls-color-surface);
+  --ls-card-border-color: var(--ls-color-border);
+  --ls-card-radius: var(--ls-radius-lg);
+  --ls-input-background: var(--ls-color-surface);
+  --ls-input-color: var(--ls-color-content);
+  --ls-input-border-color: var(--ls-color-border-strong);
+  --ls-input-radius: var(--ls-radius-md);
+
+  --ls-border-width: 1px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --ls-color-background: #151412;
+    --ls-color-surface: #1F1E1B;
+    --ls-color-surface-raised: #26241F;
+    --ls-color-content: #F2EFE9;
+    --ls-color-content-muted: #A8A296;
+    --ls-color-border: #35332E;
+  --ls-color-border-strong: #736E64;
+    --ls-color-border-strong: #736E64;
+    --ls-color-primary: #6FBFA5;
+    --ls-color-on-primary: #10201B;
+    --ls-color-accent: #E08E58;
+    --ls-color-on-accent: #231409;
+    --ls-color-success: #5FC48D;
+    --ls-color-warning: #D9A441;
+    --ls-color-danger: #E2705F;
+    --ls-color-focus: #6FBFA5;
+    --ls-shadow-raised: 0 1px 2px 0 rgb(0 0 0 / 0.30);
+    --ls-shadow-overlay: 0 12px 24px -6px rgb(0 0 0 / 0.42);
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ls-color-background: #151412;
+  --ls-color-surface: #1F1E1B;
+  --ls-color-surface-raised: #26241F;
+  --ls-color-content: #F2EFE9;
+  --ls-color-content-muted: #A8A296;
+  --ls-color-border: #35332E;
+  --ls-color-border-strong: #736E64;
+  --ls-color-primary: #6FBFA5;
+  --ls-color-on-primary: #10201B;
+  --ls-color-accent: #E08E58;
+  --ls-color-on-accent: #231409;
+  --ls-color-success: #5FC48D;
+  --ls-color-warning: #D9A441;
+  --ls-color-danger: #E2705F;
+  --ls-color-focus: #6FBFA5;
+  --ls-shadow-raised: 0 1px 2px 0 rgb(0 0 0 / 0.30);
+  --ls-shadow-overlay: 0 12px 24px -6px rgb(0 0 0 / 0.42);
+}
+
+/* --- Baseline usage, written entirely in logical properties --- */
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  margin-block: 0;
+  margin-inline: 0;
+  background: var(--ls-color-background);
+  color: var(--ls-color-content);
+  font-family: var(--ls-font-body);
+  font-size: var(--ls-text-body);
+  line-height: var(--ls-leading-body);
+  letter-spacing: var(--ls-tracking-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--ls-font-display);
+  line-height: var(--ls-leading-heading);
+  font-weight: var(--ls-weight-medium);
+  margin-block: 0 var(--ls-space-xs);
+}
+
+h1 { font-size: var(--ls-text-h1); letter-spacing: -0.01em; }
+h2 { font-size: var(--ls-text-h2); }
+h3 { font-size: var(--ls-text-h3); font-family: var(--ls-font-body); }
+
+p {
+  margin-block: 0 var(--ls-space-sm);
+  max-inline-size: 68ch;
+}
+
+code, kbd, samp, pre {
+  font-family: var(--ls-font-mono);
+  font-size: var(--ls-text-label);
+}
+
+.ls-surface {
+  background: var(--ls-card-background);
+  border: var(--ls-border-width) solid var(--ls-card-border-color);
+  border-radius: var(--ls-card-radius);
+  padding-inline: var(--ls-space-md);
+  padding-block: var(--ls-space-md);
+  box-shadow: var(--ls-shadow-raised); /* physical-ok: shadow offsets never flip with direction; this one is inline-symmetric */
+}
+
+.ls-stack > * + * {
+  margin-block-start: var(--ls-space-sm);
+}
+
+.ls-cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ls-space-xs);
+  align-items: center;
+}
+
+.ls-button {
+  font: inherit;
+  font-weight: var(--ls-weight-medium);
+  background: var(--ls-button-background);
+  color: var(--ls-button-color);
+  border: var(--ls-border-width) solid transparent;
+  border-radius: var(--ls-button-radius);
+  padding-inline: var(--ls-space-md);
+  padding-block: var(--ls-space-xs);
+  min-block-size: 2.75rem;
+  cursor: pointer;
+}
+
+.ls-input {
+  font: inherit;
+  inline-size: 100%;
+  background: var(--ls-input-background);
+  color: var(--ls-input-color);
+  border: var(--ls-border-width) solid var(--ls-input-border-color);
+  border-radius: var(--ls-input-radius);
+  padding-inline: var(--ls-space-xs);
+  padding-block: var(--ls-space-xs);
+  min-block-size: 2.75rem;
+}
+
+.ls-skip-link {
+  position: absolute;
+  inset-inline-start: var(--ls-space-sm);
+  inset-block-start: -3.5rem;
+  z-index: 50;
+  background: var(--ls-color-primary);
+  color: var(--ls-color-on-primary);
+  border-radius: var(--ls-radius-sm);
+  padding-inline: var(--ls-space-sm);
+  padding-block: var(--ls-space-xs);
+  transition: inset-block-start var(--ls-duration-normal) var(--ls-easing-standard);
+}
+
+.ls-skip-link:focus {
+  inset-block-start: var(--ls-space-sm);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--ls-color-focus);
+  outline-offset: 2px;
+}
+
+[dir="ltr"],
+[dir="rtl"],
+bdi {
+  unicode-bidi: isolate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

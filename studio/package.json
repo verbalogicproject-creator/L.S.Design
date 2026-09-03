@@ -1,0 +1,44 @@
+{
+  "name": "ls-design-studio",
+  "version": "2.0.0",
+  "description": "Local design control room for L.S.Design: review generated screens, approve them, and release an approved handoff to the builder.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "engines": { "node": ">=20.11" },
+  "bin": { "ls-design-studio": "dist/server/cli.js" },
+  "files": ["dist", "templates", "schema", "README.md"],
+  "scripts": {
+    "dev": "node server/cli.ts",
+    "dev:app": "vite",
+    "build": "npm run build:app && npm run build:server",
+    "build:app": "vite build",
+    "build:server": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "schema": "node scripts/emit-schema.ts"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.1",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "chokidar": "^5.0.0",
+    "culori": "^4.0.2",
+    "hono": "^4.13.5",
+    "yaml": "^2.9.0",
+    "zod": "^4.5.0"
+  },
+  "optionalDependencies": {
+    "playwright-core": "^1.62.0"
+  },
+  "devDependencies": {
+    "@types/culori": "^4.0.1",
+    "@types/node": "^24.10.0",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^5.1.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "typescript": "^5.9.3",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}

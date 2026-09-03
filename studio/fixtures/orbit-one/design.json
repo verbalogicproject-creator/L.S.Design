@@ -1,0 +1,207 @@
+{
+  "schemaVersion": 1,
+  "rev": 6,
+  "seq": 6,
+  "project": {
+    "name": "Orbit One",
+    "slug": "orbit-one",
+    "root": "design",
+    "lang": "en",
+    "dir": "ltr",
+    "createdAt": "2026-09-02T17:27:07.929Z"
+  },
+  "status": "screens",
+  "tokensHash": "c0951e1a1aa3f4a673ed8cc85a06b79ff7173556982d91545822ccf8e74bf58f",
+  "contrastPairs": [
+    {
+      "foreground": "content",
+      "background": "background",
+      "target": 4.5
+    },
+    {
+      "foreground": "content-muted",
+      "background": "background",
+      "target": 4.5
+    },
+    {
+      "foreground": "content",
+      "background": "surface",
+      "target": 4.5
+    },
+    {
+      "foreground": "on-primary",
+      "background": "primary",
+      "target": 4.5
+    },
+    {
+      "foreground": "on-accent",
+      "background": "accent",
+      "target": 4.5
+    },
+    {
+      "foreground": "border-strong",
+      "background": "surface",
+      "target": 3
+    },
+    {
+      "foreground": "focus",
+      "background": "background",
+      "target": 3
+    }
+  ],
+  "generator": {
+    "kind": "agent"
+  },
+  "screens": [
+    {
+      "id": "scr_5ec8951b",
+      "slug": "home-desktop",
+      "title": "Home desktop",
+      "device": "desktop",
+      "width": 1440,
+      "height": 1024,
+      "source": {
+        "kind": "agent",
+        "prompt": "Orbit One home page"
+      },
+      "revision": 1,
+      "files": {
+        "html": "screens/home-desktop/r1/code.html",
+        "png": "screens/home-desktop/r1/screen.png",
+        "sha256": {
+          "html": "85f5cee466a8bfedb59a0f2edb78629c004a5b60adc67db117287a7e83a175c7",
+          "png": "4365d34f8729520f9a952229b811804498a33ee81474eefa658730fd902c2973"
+        }
+      },
+      "decision": {
+        "state": "approved",
+        "notes": "",
+        "at": "2026-09-02T17:27:10.144Z",
+        "by": "human"
+      },
+      "staleTokens": false,
+      "canvas": {
+        "x": 0,
+        "y": 0
+      },
+      "tokenDriven": false
+    },
+    {
+      "id": "scr_707793d2",
+      "slug": "home-mobile",
+      "title": "Home mobile",
+      "device": "mobile",
+      "width": 390,
+      "height": 844,
+      "source": {
+        "kind": "agent",
+        "prompt": "Orbit One home page, mobile"
+      },
+      "revision": 1,
+      "files": {
+        "html": "screens/home-mobile/r1/code.html",
+        "png": "screens/home-mobile/r1/screen.png",
+        "sha256": {
+          "html": "70d24ca1f8bfb5494793ca585382a7c0bbf2d25f0abe65863f6b263dc97278b9",
+          "png": "4365d34f8729520f9a952229b811804498a33ee81474eefa658730fd902c2973"
+        }
+      },
+      "decision": {
+        "state": "approved",
+        "notes": "",
+        "at": "2026-09-02T17:27:10.152Z",
+        "by": "human"
+      },
+      "staleTokens": false,
+      "canvas": {
+        "x": 0,
+        "y": 1200
+      },
+      "tokenDriven": false
+    }
+  ],
+  "requests": [],
+  "events": [
+    {
+      "seq": 1,
+      "at": "2026-09-02T17:27:07.988Z",
+      "type": "project_initialized",
+      "data": {
+        "name": "Orbit One"
+      }
+    },
+    {
+      "seq": 2,
+      "at": "2026-09-02T17:27:10.126Z",
+      "type": "screen_added",
+      "data": {
+        "screenId": "scr_5ec8951b",
+        "slug": "home-desktop"
+      }
+    },
+    {
+      "seq": 3,
+      "at": "2026-09-02T17:27:10.139Z",
+      "type": "screen_added",
+      "data": {
+        "screenId": "scr_707793d2",
+        "slug": "home-mobile"
+      }
+    },
+    {
+      "seq": 4,
+      "at": "2026-09-02T17:27:10.144Z",
+      "type": "screen_approved",
+      "data": {
+        "screenId": "scr_5ec8951b",
+        "notes": "",
+        "by": "human"
+      }
+    },
+    {
+      "seq": 5,
+      "at": "2026-09-02T17:27:10.152Z",
+      "type": "screen_approved",
+      "data": {
+        "screenId": "scr_707793d2",
+        "notes": "",
+        "by": "human"
+      }
+    },
+    {
+      "seq": 6,
+      "at": "2026-09-02T17:27:10.152Z",
+      "type": "gate_ready",
+      "data": {}
+    }
+  ],
+  "gates": {
+    "screens": {
+      "passed": false
+    }
+  },
+  "approvals": [
+    {
+      "at": "2026-09-02T17:27:10.144Z",
+      "screenId": "scr_5ec8951b",
+      "state": "approved",
+      "notes": "",
+      "by": "human",
+      "revision": 1
+    },
+    {
+      "at": "2026-09-02T17:27:10.152Z",
+      "screenId": "scr_707793d2",
+      "state": "approved",
+      "notes": "",
+      "by": "human",
+      "revision": 1
+    }
+  ],
+  "provenance": {
+    "DESIGN.md": "b2b5d81fc64ab6d8e43562dd857ebdcaeeaca537a19e7d46e8c2418b8856ac3e",
+    "tokens.css": "245a8ad5aa43ffff65a6c7c5403a58e295e68e0e56bab65aa76a6df8d8c18fed",
+    "tailwind.theme.css": "11a8fbe8f7c3a5b172e0d7ed1f45352281c103e52dbf5cac434fa3f496b7ba97",
+    "preview.html": "baf614e8df7f9883d3518aaa7500ec389e20aee43da185378c79f85e3fad208c"
+  }
+}

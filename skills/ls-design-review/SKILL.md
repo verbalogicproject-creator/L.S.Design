@@ -30,3 +30,7 @@ Review hierarchy, typography, color, composition, imagery, interaction, motion, 
 Read [references/review-scorecard.md](references/review-scorecard.md) for coverage and severity calibration.
 
 Use [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) as an acceptance gate when reviewing visual specificity. Use [advanced layout decisions](../ls-design/references/advanced-layout.md) to assess complex composition, visual versus focus order, progressive enhancement, and dependency justification.
+
+When `design/DESIGN.md` exists, verify the implementation against it rather than against taste: tokens actually used, component variants and states as contracted, and the contract's own acceptance criteria met. When `design/handoff/` exists, review against that frozen snapshot, and report any approved screen with no corresponding implemented surface. Use the thirteen comparison areas in [comparison test](../../docs/COMPARISON_TEST.md) as the scoring method, scoring each from 1 to 5 with short observable evidence.
+
+Read [design contract](../ls-design/references/design-contract.md) for the rule that review never creates a contract but should report where one exists and is not enforced. Read [core principles](../ls-design/references/core-principles.md) when resolving conflicting rules across surfaces, and [rtl foundations](../ls-design/references/rtl-foundations.md) when reviewing a right-to-left locale.

@@ -31,10 +31,24 @@ class ValidationTests(unittest.TestCase):
         }
         references = rules["shared_references"]
         self.assertEqual(
-            set(references), {"natural_color_and_humanization", "advanced_layout"}
+            set(references),
+            {
+                "core_principles",
+                "natural_color_and_humanization",
+                "advanced_layout",
+                "design_contract",
+                "rtl_foundations",
+            },
         )
         for contract in references.values():
             self.assertEqual(set(contract["consumers"]), skill_names)
+            self.assertTrue((ROOT / contract["path"]).is_file(), contract["path"])
+
+    def test_documentation_only_keys_are_declared(self):
+        rules = json.loads((ROOT / "suite-rules.json").read_text(encoding="utf-8"))
+        consumed = {"skill_count", "frontmatter_keys", "shared_references", "documentation_only"}
+        unconsumed = set(rules) - consumed
+        self.assertEqual(unconsumed, set(rules["documentation_only"]))
 
 
 if __name__ == "__main__":

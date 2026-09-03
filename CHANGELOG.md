@@ -4,6 +4,37 @@ All notable changes to L.S.Design are recorded in this file.
 
 The project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates use the `YYYY-MM-DD` format.
 
+## [2.0.0] - 2026-09-02
+
+
+### Added after the first Orbit One run
+
+- `ls-design-studio lint-build` — checks a built implementation against the contract it was built from. Statically: colour and asset literals in the source, `href="#"` stubs and anchors that resolve to nothing, components without a named Props type. On the running page: every `--ls-*` token compared against the frozen `tokens.css` (values resolved and normalised, so a minifier's `.5rem` or `#fff` is not reported as drift), the `body` type role still bound to the contract, off-origin requests, whether the page is readable with scripting disabled, and horizontal overflow at each width.
+- Four implementation rules in `ls-design-build`: one component per pattern with a named Props type, content in a data module, every navigation target resolving, and nothing called done before it compiles and lints.
+
+### Added
+
+- `ls-design-contract`: the suite now emits an artifact. It writes `design/DESIGN.md` in the public design.md format, plus `design.json`, a generated `tokens.css`, a framework theme bridge, and a self-contained `preview.html` that recomputes its own WCAG contrast, measures overflow at 360, 768, and 1440 pixels, and reports zero bidirectional control characters.
+- `ls-design-studio`: a local design control room. A canvas of generated screens, a token panel with live contrast, approve and reject with notes, a request queue, and a gate that releases an approved handoff. It ships as the `ls-design-studio` npm package under `studio/`, with a Hono HTTP server that is the single writer of `design.json` and a separate stdio MCP entry that proxies to it.
+- `ls-design-build`: implements a frozen handoff into working code, defaulting to Vite, React, and Tailwind v4, with fixture quarantine so invented prices, ratings, and quotations are recognised rather than shipped.
+- Two shared references every skill now consumes: `design-contract.md`, which states the consumption rule, and `rtl-foundations.md`, a script-agnostic guide to logical properties, mirroring, bidirectional isolation, and typography across writing systems.
+- Twelve MCP tools for agent orchestration, with a documented error code for every failure mode and a long-poll wait so an agent blocks on a person's decision instead of guessing it.
+- `design/handoff/`: a deterministic, gate-guarded snapshot — brief, frozen contract, approved screens as both HTML and PNG, quarantined fixtures, target stack, and a checksum manifest.
+
+### Changed
+
+- All nine existing skills now link the shared design contract, core principles, and right-to-left references, and route a finished result to `ls-design-review`. `core-principles.md` is no longer reachable from the hub alone.
+- `ls-design-review` verifies an implementation against the contract and the handoff when they exist, and uses the thirteen comparison areas as its literal scoring method.
+- The default palette shipped with the contract template now passes every declared contrast pair in both themes. `border` and `border-strong` were separated: a decorative hairline is deliberately subtle, and a control boundary is verified at 3:1.
+- `scripts/validate.py` scans provider markers across every skill reference and the description, extends the hidden-character, byte-order-mark, and scaffold checks to HTML, CSS, and JSON, enforces logical CSS in the contract templates, checks the preview template's parameters, warns on an oversized description, and no longer treats `mailto:` as a broken link.
+- `suite-rules.json` declares five shared references across twelve skills and names the keys that are documentation only, which the validator now enforces.
+
+### Fixed
+
+- The design.md round-trip preserves the prose body exactly, including the blank line after the closing delimiter, across any number of parse and serialize cycles.
+- The installer count in the test suite is derived from the installer rather than hardcoded.
+
+
 ## [1.1.0] - 2026-09-01
 
 ### Added

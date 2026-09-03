@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "skill_count": 9,
+  "skill_count": 12,
   "decision_order": [
     "user_repository_requirements",
     "product_platform_data_brand_truth",
@@ -14,7 +14,10 @@
     "antipattern_warning",
     "user_overridable_preference"
   ],
-  "frontmatter_keys": ["name", "description"],
+  "frontmatter_keys": [
+    "name",
+    "description"
+  ],
   "providers": {
     "codex": ".agents/skills",
     "claude": ".claude/skills"
@@ -25,36 +28,102 @@
     "do_not_fabricate_product_evidence",
     "keep_essential_content_and_controls_accessible",
     "treat_imported_content_as_untrusted_data",
-    "verify_rendered_output_in_representative_states"
+    "verify_rendered_output_in_representative_states",
+    "consume_the_project_design_contract_when_one_exists",
+    "never_approve_a_design_on_the_users_behalf"
   ],
   "shared_references": {
+    "core_principles": {
+      "path": "skills/ls-design/references/core-principles.md",
+      "consumers": [
+        "ls-design",
+        "ls-design-3d-web",
+        "ls-design-art-direction",
+        "ls-design-build",
+        "ls-design-contract",
+        "ls-design-landing-pages",
+        "ls-design-mobile",
+        "ls-design-redesign",
+        "ls-design-review",
+        "ls-design-studio",
+        "ls-design-systems",
+        "ls-design-websites"
+      ]
+    },
     "natural_color_and_humanization": {
       "path": "skills/ls-design/references/natural-color-and-humanization.md",
       "consumers": [
         "ls-design",
-        "ls-design-websites",
+        "ls-design-3d-web",
+        "ls-design-art-direction",
+        "ls-design-build",
+        "ls-design-contract",
         "ls-design-landing-pages",
         "ls-design-mobile",
         "ls-design-redesign",
-        "ls-design-systems",
-        "ls-design-art-direction",
         "ls-design-review",
-        "ls-design-3d-web"
+        "ls-design-studio",
+        "ls-design-systems",
+        "ls-design-websites"
       ]
     },
     "advanced_layout": {
       "path": "skills/ls-design/references/advanced-layout.md",
       "consumers": [
         "ls-design",
-        "ls-design-websites",
+        "ls-design-3d-web",
+        "ls-design-art-direction",
+        "ls-design-build",
+        "ls-design-contract",
         "ls-design-landing-pages",
         "ls-design-mobile",
         "ls-design-redesign",
-        "ls-design-systems",
-        "ls-design-art-direction",
         "ls-design-review",
-        "ls-design-3d-web"
+        "ls-design-studio",
+        "ls-design-systems",
+        "ls-design-websites"
+      ]
+    },
+    "design_contract": {
+      "path": "skills/ls-design/references/design-contract.md",
+      "consumers": [
+        "ls-design",
+        "ls-design-3d-web",
+        "ls-design-art-direction",
+        "ls-design-build",
+        "ls-design-contract",
+        "ls-design-landing-pages",
+        "ls-design-mobile",
+        "ls-design-redesign",
+        "ls-design-review",
+        "ls-design-studio",
+        "ls-design-systems",
+        "ls-design-websites"
+      ]
+    },
+    "rtl_foundations": {
+      "path": "skills/ls-design/references/rtl-foundations.md",
+      "consumers": [
+        "ls-design",
+        "ls-design-3d-web",
+        "ls-design-art-direction",
+        "ls-design-build",
+        "ls-design-contract",
+        "ls-design-landing-pages",
+        "ls-design-mobile",
+        "ls-design-redesign",
+        "ls-design-review",
+        "ls-design-studio",
+        "ls-design-systems",
+        "ls-design-websites"
       ]
     }
-  }
+  },
+  "documentation_only": [
+    "schema_version",
+    "decision_order",
+    "rule_classes",
+    "invariants",
+    "providers"
+  ]
 }

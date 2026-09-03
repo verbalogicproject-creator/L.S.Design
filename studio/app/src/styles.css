@@ -1,0 +1,874 @@
+/*
+  ls-design-studio — control room styles.
+  Logical CSS properties only. Any physical value carries a trailing
+  "physical-ok" comment explaining why (box-shadow / transform offsets).
+*/
+
+:root {
+  --ls-color-bg: #f4f5f7;
+  --ls-color-surface: #ffffff;
+  --ls-color-border: #d7dae0;
+  --ls-color-text: #14181f;
+  --ls-color-text-muted: #5b6472;
+  --ls-color-accent: #2f6feb;
+  --ls-color-accent-contrast: #ffffff;
+  --ls-color-success: #1a7f37;
+  --ls-color-success-bg: #dafbe1;
+  --ls-color-warn: #9a6700;
+  --ls-color-warn-bg: #fff3c4;
+  --ls-color-danger: #b3261e;
+  --ls-color-danger-bg: #fde7e6;
+  --ls-color-focus: #2f6feb;
+
+  --ls-radius-sm: 4px;
+  --ls-radius-md: 8px;
+  --ls-radius-lg: 14px;
+
+  --ls-space-1: 4px;
+  --ls-space-2: 8px;
+  --ls-space-3: 12px;
+  --ls-space-4: 16px;
+  --ls-space-5: 24px;
+
+  --ls-shadow-card: 0 1px 3px rgb(0 0 0 / 0.12), 0 1px 2px rgb(0 0 0 / 0.08); /* physical-ok: box-shadow offsets are inherently physical */
+  --ls-motion-fast: 120ms;
+
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ls-color-bg: #14161a;
+    --ls-color-surface: #1c1f24;
+    --ls-color-border: #30343c;
+    --ls-color-text: #eef0f3;
+    --ls-color-text-muted: #a2a9b3;
+    --ls-color-accent: #6ea3ff;
+    --ls-color-accent-contrast: #0b1220;
+    --ls-color-success: #56d364;
+    --ls-color-success-bg: #0f2a17;
+    --ls-color-warn: #e3b341;
+    --ls-color-warn-bg: #2b2103;
+    --ls-color-danger: #ff8178;
+    --ls-color-danger-bg: #2e1210;
+    --ls-color-focus: #6ea3ff;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ls-color-bg: #14161a;
+  --ls-color-surface: #1c1f24;
+  --ls-color-border: #30343c;
+  --ls-color-text: #eef0f3;
+  --ls-color-text-muted: #a2a9b3;
+  --ls-color-accent: #6ea3ff;
+  --ls-color-accent-contrast: #0b1220;
+  --ls-color-success: #56d364;
+  --ls-color-success-bg: #0f2a17;
+  --ls-color-warn: #e3b341;
+  --ls-color-warn-bg: #2b2103;
+  --ls-color-danger: #ff8178;
+  --ls-color-danger-bg: #2e1210;
+  --ls-color-focus: #6ea3ff;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  block-size: 100%;
+  /* The URL bar collapses; 100% of the layout viewport overflows the visible one. */
+  block-size: 100dvh;
+  margin: 0;
+  overflow: hidden;
+}
+
+body {
+  background: var(--ls-color-bg);
+  color: var(--ls-color-text);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--ls-color-focus);
+  outline-offset: 2px;
+}
+
+.ls-app {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  inline-size: 100%;
+}
+
+.ls-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 100%;
+  color: var(--ls-color-text-muted);
+}
+
+.ls-loading--error {
+  color: var(--ls-color-danger);
+}
+
+.ls-app__error {
+  margin: 0;
+  padding-block: var(--ls-space-2);
+  padding-inline: var(--ls-space-4);
+  background: var(--ls-color-danger-bg);
+  color: var(--ls-color-danger);
+}
+
+.ls-app__body {
+  display: flex;
+  flex: 1;
+  min-block-size: 0;
+}
+
+.ls-panel-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-space-5);
+}
+
+.ls-app__sidebar {
+  inline-size: 320px;
+  flex: none;
+  overflow-block: auto;
+  overflow-y: auto;
+  border-inline-start: 1px solid var(--ls-color-border);
+  background: var(--ls-color-surface);
+  padding: var(--ls-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-space-5);
+}
+
+/* --------------------------------------------------------------- toolbar */
+
+.ls-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--ls-space-5);
+  padding-block: var(--ls-space-3);
+  padding-inline: var(--ls-space-4);
+  background: var(--ls-color-surface);
+  border-block-end: 1px solid var(--ls-color-border);
+  flex-wrap: wrap;
+}
+
+.ls-toolbar__group {
+  display: flex;
+  align-items: center;
+  gap: var(--ls-space-2);
+}
+
+.ls-toolbar__project {
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------- badges */
+
+.ls-badge {
+  display: inline-flex;
+  align-items: center;
+  padding-block: 2px;
+  padding-inline: var(--ls-space-2);
+  border-radius: var(--ls-radius-sm);
+  background: var(--ls-color-border);
+  font-size: 12px;
+}
+
+.ls-badge--online {
+  background: var(--ls-color-success-bg);
+  color: var(--ls-color-success);
+}
+
+.ls-badge--offline {
+  background: var(--ls-color-border);
+  color: var(--ls-color-text-muted);
+}
+
+.ls-badge--warn {
+  background: var(--ls-color-warn-bg);
+  color: var(--ls-color-warn);
+}
+
+.ls-badge--info {
+  background: var(--ls-color-accent);
+  color: var(--ls-color-accent-contrast);
+}
+
+.ls-badge--status {
+  background: var(--ls-color-accent);
+  color: var(--ls-color-accent-contrast);
+}
+
+/* --------------------------------------------------------------- buttons */
+
+.ls-btn {
+  border: 1px solid var(--ls-color-border);
+  background: var(--ls-color-surface);
+  border-radius: var(--ls-radius-sm);
+  padding-block: var(--ls-space-2);
+  padding-inline: var(--ls-space-3);
+  cursor: pointer;
+  transition: background var(--ls-motion-fast);
+}
+
+.ls-btn:hover:not(:disabled) {
+  background: var(--ls-color-bg);
+}
+
+.ls-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ls-btn--small {
+  padding-block: 2px;
+  padding-inline: var(--ls-space-2);
+  font-size: 12px;
+}
+
+.ls-btn--primary {
+  background: var(--ls-color-accent);
+  border-color: var(--ls-color-accent);
+  color: var(--ls-color-accent-contrast);
+}
+
+.ls-btn--approve {
+  border-color: var(--ls-color-success);
+  color: var(--ls-color-success);
+}
+
+.ls-btn--reject {
+  border-color: var(--ls-color-danger);
+  color: var(--ls-color-danger);
+}
+
+/* ---------------------------------------------------------------- gate */
+
+.ls-gate-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--ls-space-4);
+  padding-block: var(--ls-space-2);
+  padding-inline: var(--ls-space-4);
+  font-size: 13px;
+}
+
+.ls-gate-banner--ok {
+  background: var(--ls-color-success-bg);
+  color: var(--ls-color-success);
+}
+
+.ls-gate-banner--blocked {
+  background: var(--ls-color-warn-bg);
+  color: var(--ls-color-warn);
+}
+
+.ls-gate-banner__label {
+  font-weight: 600;
+}
+
+.ls-gate-banner__actions {
+  margin-inline-start: auto;
+  display: flex;
+  gap: var(--ls-space-2);
+}
+
+/* --------------------------------------------------------------- canvas */
+
+.ls-app__board {
+  display: flex;
+  flex: 1;
+  min-inline-size: 0;
+  min-block-size: 0;
+}
+
+.ls-canvas {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  touch-action: none;
+  background:
+    linear-gradient(90deg, rgb(0 0 0 / 0.04) 1px, transparent 1px) 0 0 / 40px 40px,
+    linear-gradient(rgb(0 0 0 / 0.04) 1px, transparent 1px) 0 0 / 40px 40px,
+    var(--ls-color-bg);
+  cursor: grab;
+}
+
+.ls-canvas--dragging {
+  cursor: grabbing;
+}
+
+.ls-canvas--dragging .ls-frame__iframe {
+  pointer-events: none;
+}
+
+.ls-canvas__world {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  transform-origin: 0 0;
+}
+
+/* ----------------------------------------------------------------- card */
+
+.ls-card {
+  position: absolute;
+  background: var(--ls-color-surface);
+  border: 1px solid var(--ls-color-border);
+  border-radius: var(--ls-radius-md);
+  box-shadow: var(--ls-shadow-card);
+  overflow: hidden;
+}
+
+.ls-card--focused {
+  outline: 2px solid var(--ls-color-focus);
+  outline-offset: 2px;
+}
+
+.ls-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ls-space-2);
+  padding-block: var(--ls-space-2);
+  padding-inline: var(--ls-space-3);
+  background: var(--ls-color-bg);
+  border-block-end: 1px solid var(--ls-color-border);
+  cursor: grab;
+  user-select: none;
+  flex-wrap: wrap;
+}
+
+.ls-card__titles {
+  display: flex;
+  flex-direction: column;
+  min-inline-size: 0;
+}
+
+.ls-card__title {
+  font-weight: 600;
+}
+
+.ls-card__slug {
+  color: var(--ls-color-text-muted);
+  font-size: 12px;
+}
+
+.ls-card__badges {
+  display: flex;
+  align-items: center;
+  gap: var(--ls-space-1);
+  flex-wrap: wrap;
+}
+
+.ls-card__badge {
+  display: inline-flex;
+  align-items: center;
+  padding-block: 2px;
+  padding-inline: var(--ls-space-2);
+  border-radius: var(--ls-radius-sm);
+  background: var(--ls-color-border);
+  font-size: 11px;
+}
+
+.ls-card__badge--info {
+  background: var(--ls-color-accent);
+  color: var(--ls-color-accent-contrast);
+}
+
+.ls-card__badge--warn {
+  background: var(--ls-color-warn-bg);
+  color: var(--ls-color-warn);
+}
+
+.ls-card__toggle {
+  border: 1px solid var(--ls-color-border);
+  background: var(--ls-color-surface);
+  border-radius: var(--ls-radius-sm);
+  padding-block: 2px;
+  padding-inline: var(--ls-space-2);
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* ---------------------------------------------------------------- frame */
+
+.ls-frame {
+  position: relative;
+  max-inline-size: 100%;
+}
+
+.ls-frame__shield {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  z-index: 1;
+}
+
+.ls-frame__png,
+.ls-frame__iframe {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  border: 0;
+}
+
+.ls-frame__iframe {
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  transition: opacity var(--ls-motion-fast);
+}
+
+.ls-frame__note {
+  position: absolute;
+  inset-block-end: var(--ls-space-2);
+  inset-inline-end: var(--ls-space-2);
+  background: rgb(0 0 0 / 0.6);
+  color: #fff;
+  font-size: 11px;
+  padding-block: 2px;
+  padding-inline: var(--ls-space-2);
+  border-radius: var(--ls-radius-sm);
+}
+
+/* -------------------------------------------------------------- decision */
+
+.ls-decision {
+  padding: var(--ls-space-3);
+  border-block-start: 1px solid var(--ls-color-border);
+}
+
+.ls-decision__row {
+  display: flex;
+  gap: var(--ls-space-2);
+}
+
+.ls-decision__panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-space-2);
+}
+
+.ls-decision__error {
+  color: var(--ls-color-danger);
+  margin: 0;
+  margin-block-start: var(--ls-space-2);
+}
+
+/* ---------------------------------------------------------------- panel */
+
+.ls-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-space-2);
+}
+
+.ls-panel__heading {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ls-color-text-muted);
+  margin: 0;
+}
+
+.ls-panel__empty {
+  color: var(--ls-color-text-muted);
+  font-size: 12px;
+}
+
+.ls-panel__error {
+  color: var(--ls-color-danger);
+  font-size: 12px;
+}
+
+.ls-table {
+  inline-size: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.ls-table th {
+  text-align: start;
+  color: var(--ls-color-text-muted);
+  font-weight: 500;
+  padding-block: var(--ls-space-1);
+}
+
+.ls-table td {
+  padding-block: var(--ls-space-1);
+  border-block-start: 1px solid var(--ls-color-border);
+}
+
+.ls-table__row--fail td:last-child {
+  color: var(--ls-color-danger);
+  font-weight: 600;
+}
+
+.ls-table__row--failed td {
+  color: var(--ls-color-danger);
+}
+
+/* ------------------------------------------------------------ token panel */
+
+.ls-token-group {
+  border: 1px solid var(--ls-color-border);
+  border-radius: var(--ls-radius-sm);
+  padding: var(--ls-space-2);
+  margin: 0;
+}
+
+.ls-token-group legend {
+  padding-inline: var(--ls-space-1);
+  font-size: 12px;
+  color: var(--ls-color-text-muted);
+}
+
+.ls-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 12px;
+  margin-block-end: var(--ls-space-2);
+}
+
+.ls-field--row {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ls-space-2);
+}
+
+.ls-field input[type="text"] {
+  inline-size: 100%;
+  border: 1px solid var(--ls-color-border);
+  border-radius: var(--ls-radius-sm);
+  padding-block: 2px;
+  padding-inline: var(--ls-space-2);
+  background: var(--ls-color-surface);
+}
+
+.ls-field textarea,
+.ls-field select {
+  border: 1px solid var(--ls-color-border);
+  border-radius: var(--ls-radius-sm);
+  background: var(--ls-color-surface);
+  padding: var(--ls-space-2);
+}
+
+.ls-field__color-row {
+  display: flex;
+  gap: var(--ls-space-1);
+  align-items: center;
+}
+
+/* ---------------------------------------------------------- contrast table */
+
+.ls-contrast-group h3 {
+  font-size: 12px;
+  margin: 0;
+  margin-block-end: var(--ls-space-1);
+  color: var(--ls-color-text-muted);
+}
+
+/* ------------------------------------------------------------ review list */
+
+.ls-badge--pending {
+  background: var(--ls-color-warn-bg);
+  color: var(--ls-color-warn);
+}
+
+.ls-badge--approved {
+  background: var(--ls-color-success-bg);
+  color: var(--ls-color-success);
+}
+
+.ls-badge--rejected {
+  background: var(--ls-color-danger-bg);
+  color: var(--ls-color-danger);
+}
+
+.ls-review__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-space-3);
+}
+
+.ls-review__item {
+  border: 1px solid var(--ls-color-border);
+  border-radius: var(--ls-radius-md);
+  padding: var(--ls-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-space-2);
+  background: var(--ls-color-bg);
+}
+
+.ls-review__head {
+  display: flex;
+  gap: var(--ls-space-3);
+  align-items: flex-start;
+}
+
+.ls-review__thumb {
+  inline-size: 64px;
+  block-size: auto;
+  max-block-size: 96px;
+  object-fit: cover;
+  object-position: top;
+  border: 1px solid var(--ls-color-border);
+  border-radius: var(--ls-radius-sm);
+  background: var(--ls-color-surface);
+  flex: none;
+}
+
+.ls-review__meta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-space-1);
+  min-inline-size: 0;
+}
+
+.ls-review__title {
+  font-weight: 600;
+}
+
+.ls-review__slug {
+  color: var(--ls-color-text-muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.ls-review__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ls-space-1);
+}
+
+.ls-review__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--ls-space-2);
+}
+
+.ls-review__actions .ls-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ls-review__notes {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ls-color-text-muted);
+  overflow-wrap: anywhere;
+}
+
+.ls-review__notes-label {
+  display: block;
+  font-weight: 600;
+  color: var(--ls-color-text);
+}
+
+/* ------------------------------------------------------------------- tabs */
+
+/* Wide viewports show the board and the panel side by side; no tabs needed. */
+.ls-tabs {
+  display: none;
+}
+
+.ls-tabs__tab {
+  flex: 1;
+  border: 0;
+  border-block-end: 2px solid transparent;
+  background: transparent;
+  color: var(--ls-color-text-muted);
+  padding-block: var(--ls-space-3);
+  padding-inline: var(--ls-space-2);
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ls-space-2);
+}
+
+.ls-tabs__tab--active {
+  color: var(--ls-color-text);
+  border-block-end-color: var(--ls-color-accent);
+}
+
+.ls-tabs__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 20px;
+  padding-inline: var(--ls-space-1);
+  border-radius: var(--ls-radius-sm);
+  background: var(--ls-color-warn-bg);
+  color: var(--ls-color-warn);
+  font-size: 12px;
+}
+
+/* ---------------------------------------------------------- narrow screens */
+
+/*
+  A phone has no room for a fixed side panel beside the board: at 412px the
+  320px sidebar left a 92px canvas. Below this width the board takes the top
+  of the screen and the panel scrolls beneath it.
+*/
+@media (max-width: 860px), (pointer: coarse) and (max-width: 1100px) {
+  /*
+    One surface at a time. Stacking them gave the panel a few centimetres at
+    the foot of the page, with the last control sitting under the browser's own
+    bar; each tab now gets the full height instead.
+  */
+  .ls-tabs {
+    display: flex;
+    background: var(--ls-color-surface);
+    border-block-end: 1px solid var(--ls-color-border);
+  }
+
+  .ls-app__body {
+    flex-direction: column;
+  }
+
+  .ls-app__sidebar {
+    inline-size: 100%;
+    flex: 1;
+    border-inline-start: none;
+    /* Keeps the last control clear of the browser's bottom chrome. */
+    padding-block-end: calc(var(--ls-space-5) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .ls-app[data-tab="board"] .ls-app__sidebar {
+    display: none;
+  }
+
+  .ls-app[data-tab="review"] .ls-app__board,
+  .ls-app[data-tab="tokens"] .ls-app__board {
+    display: none;
+  }
+
+  .ls-app[data-tab="review"] .ls-panel-group--tokens,
+  .ls-app[data-tab="tokens"] .ls-panel-group--review {
+    display: none;
+  }
+
+  /* The toolbar's panel toggle belongs to the two-column layout only. */
+  .ls-btn--panel-toggle {
+    display: none;
+  }
+
+  .ls-toolbar {
+    gap: var(--ls-space-2);
+    padding-block: var(--ls-space-2);
+    padding-inline: var(--ls-space-3);
+  }
+
+  .ls-toolbar__project {
+    inline-size: 100%;
+  }
+}
+
+/*
+  Pointer-coarse devices get a 44px minimum hit target on every control,
+  which is the smallest reliably tappable size.
+*/
+@media (pointer: coarse) {
+  .ls-btn,
+  .ls-toolbar select,
+  .ls-review__actions .ls-btn {
+    min-block-size: 44px;
+  }
+
+  .ls-card__toggle {
+    min-block-size: 32px;
+  }
+}
+
+/* ------------------------------------------------------- canvas empty state */
+
+.ls-canvas__empty {
+  position: absolute;
+  inset-block: 0;
+  inset-inline: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--ls-space-5);
+  text-align: center;
+  color: var(--ls-color-text-muted);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------- change request */
+
+.ls-change {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ls-space-2);
+  border-block-start: 1px solid var(--ls-color-border);
+  padding-block-start: var(--ls-space-2);
+}
+
+.ls-change__label {
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.ls-change textarea {
+  inline-size: 100%;
+  border: 1px solid var(--ls-color-border);
+  border-radius: var(--ls-radius-sm);
+  padding: var(--ls-space-2);
+  background: var(--ls-color-surface);
+  resize: vertical;
+}
+
+.ls-change__sent {
+  color: var(--ls-color-success);
+  font-size: 12px;
+  margin: 0;
+}
+
+.ls-change__error {
+  color: var(--ls-color-danger);
+  font-size: 12px;
+  margin: 0;
+}
