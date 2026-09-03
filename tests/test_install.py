@@ -32,13 +32,15 @@ class InstallerTests(unittest.TestCase):
         )
 
     def test_dry_run_does_not_write(self):
+        installer = load_installer()
+        expected = 2 * len(installer.skill_sources())
         with tempfile.TemporaryDirectory() as directory:
             target = Path(directory)
             result = self.run_installer("--target", str(target), "--dry-run")
             self.assertEqual(result.returncode, 0, result.stderr)
             self.assertFalse((target / ".agents").exists())
             self.assertFalse((target / ".claude").exists())
-            self.assertEqual(result.stdout.count("would install"), 18)
+            self.assertEqual(result.stdout.count("would install"), expected)
 
     def test_both_provider_layouts_have_matching_content(self):
         installer = load_installer()

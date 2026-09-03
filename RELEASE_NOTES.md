@@ -1,66 +1,66 @@
-# L.S.Design v1.1.0 — Human-Centered Layout and 3D Craft
+# L.S.Design v2.0.0 — The Design Contract, the Studio, and the Build Pipeline
 
-L.S.Design v1.1.0 improves how the suite makes visual decisions. It adds stronger layout expertise, natural color direction, a required humanization check, and more disciplined product-focused 3D guidance without adding another skill or runtime dependency.
+v1.x taught a coding agent how to make good design decisions. It never wrote anything down. Every session re-derived the greys, re-picked the spacing rhythm, re-invented the focus treatment — each defensible alone, incoherent together — and nobody ever looked at the result before it became code.
 
-## Why this release
+v2.0.0 closes that loop. The suite now emits an artifact, puts a person in front of the screens, and hands an approved snapshot to a builder.
 
-Generated websites can be polished yet still feel interchangeable. Common combinations—dark heroes, fluorescent accents, oversized type, pills, concentric graphics, glow, and isolated product renders—often appear without a relationship to the product.
+## The pipeline
 
-This release teaches every L.S.Design specialist to recognize that convergence, trace design choices to real evidence, and keep only the techniques that strengthen the product's identity and use.
-
-## Natural color and humanization
-
-- Natural, material-derived color is now the contextual default.
-- Existing brand palettes, explicit user direction, accessibility, and functional states still take priority.
-- Color guidance covers semantic roles, tinted neutrals, restrained accents, OKLCH, `color-mix()`, and responsible use of glow or fluorescence.
-- A required acceptance gate checks motif restraint, content-led geometry, product-specific language, physical context, composition rhythm, and ordinary interface states.
-
-The rules do not ban vivid color or any individual design technique. They require a reason when several familiar trend signals appear together.
-
-## Advanced layout expertise
-
-The suite now uses a native-first layout decision ladder covering intrinsic flow, Flexbox, Grid, subgrid, container queries, editorial shapes, anchor positioning, view transitions, and responsive recomposition.
-
-It also explains when a project may benefit from EGJS Grid, Floating UI, Motion, AutoAnimate, React Grid Layout, React Three UIKit, or Yoga. L.S.Design installs none of these packages. A generated project adds one only for a concrete runtime need with accessibility, fallback, licensing, and client-cost review.
-
-## Better product 3D
-
-The 3D specialist now gives clearer direction for product scenes:
-
-- Establish silhouette, scale, useful viewpoint, contact, and material-readable lighting first.
-- Use guided camera movement when unrestricted orbiting adds no value.
-- Apply fabric sheen, brushed-metal anisotropy, bloom, and emissive effects only when the material or art direction supports them.
-- Avoid constant rotation, particles, and camera drift that do not explain the product.
-- Render static scenes on demand and preserve a useful DOM experience and static fallback.
-- Distinguish real renderer-based 3D from CSS or SVG depth honestly.
-
-## Stable public interface
-
-The release keeps the same nine skill names, provider-neutral Markdown format, installer commands, and Codex-compatible and Claude Code installation layouts. It adds no dependency to the skill suite itself.
-
-## Validation
-
-Version 1.1.0 adds machine-readable shared-reference coverage and regression tests ensuring that every specialist uses the same color, humanization, and layout policies. The release is checked with structural validation, source scanning, complete unit tests, checksum-matched provider installations, and the controlled Orbit One website-versus-3D exercise.
-
-The [v1.1.0 benchmark evidence](docs/V1.1.0_BENCHMARK.md) records the controlled prompt checksum, toolchain, dependencies, builds, browser checks, visual scores, delivery costs, and environment limitation.
-
-## Upgrade
-
-Pull or clone the tagged release, then replace the existing installation intentionally:
-
-```sh
-python scripts/install.py --provider both --scope global --force
+```text
+ls-design-contract  ->  ls-design-studio  ->  ls-design-build  ->  ls-design-review
+   DESIGN.md              approve or            implement            score against
+   tokens.css             reject screens        the handoff          the contract
+   preview.html           release handoff
 ```
 
-Use `--target /path/to/project` instead of `--scope global` for a project-local installation.
+Each stage leaves an artifact the next one reads. Skip a stage when the work does not need it — a small fix inside a product that already has tokens goes straight to the relevant specialist. A project with no contract and more than one surface should not skip the first.
 
-## Compatibility
+## The design contract
 
-- Python 3.9 or newer for repository scripts
-- Provider-neutral Markdown skill format
-- Codex-compatible `.agents/skills` layout
-- Claude Code `.claude/skills` layout
+`ls-design-contract` writes `design/DESIGN.md`: YAML frontmatter of tokens in the public design.md format, plus prose for everything a token map cannot express — the premise and its evidence, the direction and what it excludes, layout templates with named slots, components as contracts with their states and keyboard behaviour, content schemas with provenance, and measurable acceptance criteria.
 
-## License
+The file stays portable. It carries no suite-specific stamps, so any tool that reads the public design.md format can consume it. Everything this suite needs beyond that format lives in `design/design.json`.
 
-Apache License 2.0. Research sources and evidence boundaries are documented in `THIRD_PARTY_NOTICES.md`.
+Dark mode fits inside the flat format through a `dark-` prefix: `dark-surface` is the dark twin of `surface`, and a role with no twin inherits its light value. When an external generator needs the document, `ls-design-studio tokens --emit stitch` strips the twins so the generator sees a clean spec while `DESIGN.md` remains the single source of truth.
+
+From the frontmatter the suite generates `tokens.css` — logical CSS properties only, under an `--ls-` prefix that keeps the contract clear of a framework's own namespace — a framework theme bridge, and `preview.html`: one self-contained file that opens from the filesystem, recomputes every contrast ratio in the browser, measures overflow at 360, 768, and 1440 pixels, and reports zero bidirectional control characters. A contract whose preview was never opened is a draft, whatever its status field says.
+
+The default palette that ships with the template passes every one of its seven declared contrast pairs, checked in both themes for fourteen passing results. Getting there required separating `border` from `border-strong`: a decorative hairline between two surfaces is deliberately subtle, and a divider forced to 3:1 reads as a heavy rule; the boundary of an interactive control is where WCAG 1.4.11 actually applies, and that one is verified.
+
+## The design studio
+
+`ls-design-studio` is a local control room: a pan-and-zoom canvas of generated screens, a token panel with live contrast, approve or reject with notes on every screen, a request queue, and a gate.
+
+It is not a generator and holds no API keys. Screens arrive from a screen-generation service the agent reaches over MCP, or from the agent authoring HTML directly against `tokens.css`. It is not a drawing tool either — direct manipulation is curation: arrange, compare, decide, and turn token knobs. Element-level editing is deliberately out of scope.
+
+The interesting part is the loop. A person rejects a screen with a note; the note is copied verbatim into a queued request; the agent's `studio_wait_for_decision` returns; the agent claims the request, does the work, and posts a new revision that returns to pending. Nothing is paraphrased into a softer instruction, and no screen is ever approved on the person's behalf.
+
+Screens paint from their stored PNG first. Generated HTML usually needs a stylesheet CDN, a font service, and remote images, so it is the PNG — not the markup — that is the visual record, and it is the PNG that survives into the handoff.
+
+## The handoff
+
+The gate opens only when there is at least one screen, every screen is approved, nothing is stale against the current tokens, and no token reapplication is still queued. Then `design/handoff/` is written: a brief, the frozen contract and its generated files, each approved screen as both HTML and PNG, quarantined fixtures, the target stack, and a checksum manifest.
+
+Fixture quarantine is the part that earns its keep. Generated screens invent prices, ratings, customer counts, and testimonials. They are extracted into `fixtures/<slug>.json` so the builder can recognise them and replace them with real content or an explicit empty state, rather than shipping something plausible.
+
+A forced export is stamped, in its first line, as not having passed the gate.
+
+## Right-to-left, for everyone
+
+`rtl-foundations.md` is a shared reference every skill now reads. It is script-agnostic: logical properties instead of physical ones, the mirror and never-mirror list, `<bdi>` isolation with an absolute ban on Unicode bidirectional control characters, and the typographic facts that break libraries built for Latin only — italics are not universal emphasis, letter-spacing destroys connected scripts, and line height usually needs more room.
+
+Real right-to-left support is not `dir="rtl"` applied to a left-to-right layout. Built this way it costs almost nothing.
+
+## What else changed
+
+- All nine existing skills link the shared contract, core principles, and right-to-left references, and route a finished result to `ls-design-review`. `core-principles.md` is no longer reachable from the hub alone.
+- `ls-design-review` verifies an implementation against the contract and the handoff when they exist, and uses the thirteen comparison areas as its literal scoring method.
+- The validator scans provider markers across every reference and description, extends its hidden-character and scaffold checks to HTML, CSS, and JSON, enforces logical CSS in the contract templates, and warns on an oversized description.
+
+## Requirements
+
+Python 3.9 or newer for installation and validation, unchanged. Node 20 or newer **only** for the studio; the skills themselves still have no runtime dependency, and the contract can be filled in by hand from the packaged templates when Node is unavailable.
+
+## Upgrading from v1.x
+
+Nothing in v1.x breaks. The suite grew from nine skills to twelve, and existing skills gained links, not new obligations. The version is 2.0.0 because the suite now emits files into a project and ships a runtime — a change in kind, not in degree.

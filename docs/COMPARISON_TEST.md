@@ -144,3 +144,9 @@ The 3D skill should decide whether a spatial product representation materially i
 The exercise has no predetermined visual winner. A simpler result may be stronger if it communicates the product more clearly and reliably.
 
 The completed v1.1.0 run is recorded in [v1.1.0 benchmark evidence](V1.1.0_BENCHMARK.md).
+
+## The v2.0.0 run
+
+From v2.0.0 the same base prompt is also run through the full pipeline — contract, studio, human approval, handoff, build, review — rather than handed straight to one specialist. The thirteen areas above remain the scoring method; the release acceptance criteria are unchanged. Three deltas must be stated when comparing a v2 score with a v1.1 score: a design phase now exists, the build stage uses a framework theme bridge over the contract's custom properties, and the design-phase screens are reviewed as images and never shipped, so the "no remote assets" check applies to the built result rather than to them.
+
+The v2.0.0 run is recorded in [v2.0.0 benchmark evidence](V2.0.0_BENCHMARK.md).

@@ -31,3 +31,5 @@ User and repository requirements come first, followed by product and platform tr
 Read [references/system-contract.md](references/system-contract.md) when defining token tiers, component APIs, or migration rules.
 
 Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when defining color roles, derived scales, effect materials, and art-direction exceptions. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) when governing layout primitives, container behavior, overlays, or optional composition libraries.
+
+Before building a new interface, check for `design/DESIGN.md` and obey it if present; if it is absent and this is new build work, run `ls-design-contract` first. Read [design contract](../ls-design/references/design-contract.md) for the full consumption rule, [core principles](../ls-design/references/core-principles.md) when the direction is new or two rules conflict, and [rtl foundations](../ls-design/references/rtl-foundations.md) whenever the work ships a right-to-left locale or a locale-portable component. For a final acceptance pass, hand the result to `ls-design-review`.

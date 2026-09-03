@@ -7,7 +7,17 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent.parent
-LOCAL_LINK = re.compile(r"\[[^\]]+\]\((?!https?://|mailto:|#)([^)]+)\)")
+LOCAL_LINK = re.compile(r"\[[^\]]+\]\((?!https?://|mailto:|tel:|#)([^)]+)\)")
+# Installed packages and build output are not this project's documentation.
+SKIP_DIRECTORIES = {"node_modules", "dist", "__pycache__", ".git"}
+
+
+def project_markdown(root: Path):
+    for markdown in sorted(root.rglob("*.md")):
+        parts = markdown.relative_to(root).parts
+        if set(parts) & SKIP_DIRECTORIES or any(part.startswith(".") for part in parts[:-1]):
+            continue
+        yield markdown
 
 
 class ReleaseDocumentationTests(unittest.TestCase):
@@ -19,7 +29,7 @@ class ReleaseDocumentationTests(unittest.TestCase):
 
     def test_local_markdown_links_resolve(self):
         failures = []
-        for markdown in ROOT.rglob("*.md"):
+        for markdown in project_markdown(ROOT):
             text = markdown.read_text(encoding="utf-8")
             for match in LOCAL_LINK.finditer(text):
                 raw_target = match.group(1).strip()

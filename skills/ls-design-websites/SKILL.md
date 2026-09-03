@@ -33,3 +33,5 @@ User and repository requirements come first, followed by product and brand truth
 For section rhythm, navigation patterns, and responsive completion checks, read [references/website-craft.md](references/website-craft.md).
 
 Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when establishing the visual world or checking whether repeated sections feel generated. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) for complex editorial composition, galleries, overlays, or a proposed layout dependency.
+
+Before building a new interface, check for `design/DESIGN.md` and obey it if present; if it is absent and this is new build work, run `ls-design-contract` first. Read [design contract](../ls-design/references/design-contract.md) for the full consumption rule, [core principles](../ls-design/references/core-principles.md) when the direction is new or two rules conflict, and [rtl foundations](../ls-design/references/rtl-foundations.md) whenever the work ships a right-to-left locale or a locale-portable component. For a final acceptance pass, hand the result to `ls-design-review`.

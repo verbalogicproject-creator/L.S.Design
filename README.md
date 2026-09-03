@@ -6,6 +6,8 @@
 
 L.S.Design is a provider-neutral frontend design skill suite for coding agents. It helps an agent design and build premium websites, landing pages, mobile experiences, redesigns, design systems, art direction, reviews, and accessible 3D web experiences.
 
+Since v2.0.0 it also writes a design contract into the project, puts the generated screens in front of a person before they become code, and hands the approved result to a builder.
+
 The suite does not force one visual style. It teaches the agent how to read the product, choose a clear direction, protect the brand, and produce a complete interface that works across real devices and states.
 
 ## Why L.S.Design
@@ -27,6 +29,9 @@ Many generated interfaces are technically correct but look interchangeable. They
 | Skill | Best used for |
 |---|---|
 | `ls-design` | Choosing a direction and routing work across several design specialties |
+| `ls-design-contract` | The project's design contract: tokens, components, layouts, and a preview to confirm them visually |
+| `ls-design-studio` | Human review of generated screens, with a gate that releases an approved handoff |
+| `ls-design-build` | Implementing an approved handoff into working code |
 | `ls-design-websites` | Complete responsive marketing, editorial, portfolio, institutional, and product websites |
 | `ls-design-landing-pages` | Focused campaign, launch, service, sign-up, and conversion pages |
 | `ls-design-mobile` | Responsive web, iOS, Android, and cross-platform mobile experiences |
@@ -50,11 +55,53 @@ Every skill resolves conflicting guidance in the same order:
 
 This order prevents a visual preference from silently replacing product requirements or accessibility.
 
+## The pipeline
+
+New build work runs in one direction, and each stage leaves an artifact the next one reads:
+
+```text
+ls-design-contract  ->  ls-design-studio  ->  ls-design-build  ->  ls-design-review
+   design/DESIGN.md       approve or            implement            score against
+   design/tokens.css      reject screens        the handoff          the contract
+   design/preview.html    release handoff
+```
+
+Skip a stage the work does not need. A small fix inside a product that already has tokens goes straight to the relevant specialist. A project with no contract and more than one surface should not skip the first stage.
+
+### Design contract
+
+`ls-design-contract` writes `design/DESIGN.md` — YAML token frontmatter in the public design.md format, plus the prose a token map cannot hold: the premise and its evidence, the direction and its exclusions, layout templates, components as contracts, content schemas with provenance, and measurable acceptance criteria. From that frontmatter it generates `tokens.css`, a framework theme bridge, and a self-contained `preview.html` that recomputes every contrast ratio in the browser, measures overflow at 360, 768, and 1440 pixels, and reports zero bidirectional control characters.
+
+Every other skill reads the contract before it builds. See [design contract](docs/DESIGN_CONTRACT.md).
+
+### Design Studio
+
+`ls-design-studio` is a local control room: a canvas of generated screens, a token panel with live contrast, approve or reject with notes, a request queue, and a gate. The coding agent drives generation over MCP and blocks on the person's decisions instead of guessing them.
+
+```sh
+cd studio && npm install && npm run build
+node dist/server/cli.js init --project /path/to/project --name "Product"
+node dist/server/cli.js --project /path/to/project --open
+```
+
+The studio holds no API keys, binds to the loopback address only, and is the single writer of `design/design.json`. See [studio guide](docs/STUDIO.md).
+
+### Build from handoff
+
+When every screen is approved and nothing is stale, the gate writes `design/handoff/`: a brief, the frozen contract, each approved screen as HTML and PNG, quarantined fixture values, the target stack, and a checksum manifest. `ls-design-build` implements it — by default Vite, React, and Tailwind v4 — and routes through the surface specialist the handoff names. See [handoff contract](docs/HANDOFF.md).
+
+## Right-to-left and locale portability
+
+Every skill now reads a shared, script-agnostic right-to-left reference: logical CSS properties instead of physical ones, the mirror and never-mirror list, `<bdi>` isolation with an absolute ban on Unicode bidirectional control characters, and the typographic facts that break libraries built for Latin only — italics are not universal emphasis, letter-spacing destroys connected scripts, and line height usually needs more room.
+
+Real right-to-left support is not `dir="rtl"` applied to a left-to-right layout. Built from logical properties from the start, it costs almost nothing.
+
 ## Requirements
 
 - Python 3.9 or newer for installation and validation
 - A coding agent that can discover skills from a supported skills directory
 - No runtime dependency for the skills themselves
+- Node 20 or newer **only** for the Design Studio. The contract can also be filled in by hand from the packaged templates when Node is unavailable.
 
 The generated websites may use any frontend stack. Each skill tells the agent to respect the stack already used by the project.
 
