@@ -36,7 +36,7 @@ node dist/server/cli.js --project /path/to/project --open
 During development, without a build step:
 
 ```bash
-node server/cli.ts --project /path/to/project --open
+npx tsx server/cli.ts --project /path/to/project --open
 ```
 
 The server binds to `127.0.0.1` only and prints its URL, the project path, and the current screen

@@ -84,7 +84,9 @@ studio/
 
 ```bash
 npm install
-npm run dev          # runs the server directly from source (node server/cli.ts)
+npm run dev          # runs the server directly from source (tsx server/cli.ts)
+# tsx, rather than plain node: Node strips TypeScript types only from 22.6,
+# and this package supports Node 20.11 and up.
 npm run dev:app       # runs the browser app under Vite, against a server started separately
 npm run typecheck     # tsc --noEmit
 npm test              # vitest run
