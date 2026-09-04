@@ -59,3 +59,12 @@ Size from the actual container and cap resolution through a measured policy. Ren
 Track ownership of geometries, materials, textures, render targets, controls, workers, observers, and event listeners. Dispose owned resources at teardown; caches and shared resources need explicit ownership rules.
 
 Primary references: [Three.js disposal](https://threejs.org/manual/en/how-to-dispose-of-objects.html), [responsive rendering](https://threejs.org/manual/en/responsive.html), and [rendering on demand](https://threejs.org/manual/en/rendering-on-demand.html).
+
+## Anti-patterns that circulate as advice
+
+These four appear in widely copied Three.js example code, which is where they enter a project. Each contradicts an invariant this skill already states; naming the concrete shape makes the invariant checkable.
+
+- **A user-agent test standing in for a quality strategy.** Matching the platform string against a device pattern to decide whether to add an effect pass or halve a texture size. The string describes a browser, not a frame budget: a recent phone is refused work it could do, and a struggling laptop is given work it cannot. Measure frame behavior instead and move between the tiers above.
+- **A device-pixel-ratio cap pasted as boilerplate.** Clamping to two, copied unchanged into every scene, is a guess presented as a policy. Cap resolution from a measured budget for this scene on representative devices.
+- **Hover as the whole interaction model.** Recoloring or selecting an object on pointer move, with no keyboard path and no visible affordance, leaves the scene inoperable for anyone not using a mouse. Pair every pointer interaction with a focusable control and a visible reset.
+- **An animation loop with no motion-preference gate.** A continuously rotating object is the standard first example and almost never checks the reduced-motion preference. Query it once, respond to changes, and hold the scene at a readable resting state when it is set.

@@ -13,6 +13,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SKILLS = ROOT / "skills"
 RULES = ROOT / "suite-rules.json"
+FAILURE_MODES = ROOT / "failure-modes.json"
+FAILURE_MODE_ID_RE = re.compile(r"^fm-[a-z0-9]+(?:-[a-z0-9]+)*$")
 NAME_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 LINK_RE = re.compile(r"\[[^\]]+\]\((?!https?://|mailto:|tel:|#)([^)]+)\)")
 PROVIDER_MARKERS = ("codex", "claude", "openai", "anthropic", ".agents/", ".claude/")
@@ -105,6 +107,73 @@ def check_preview_template(path: Path, text: str) -> list[str]:
     return findings
 
 
+
+def check_failure_modes(rules: dict) -> list[str]:
+    """Validate the failure-mode registry against the suite's own vocabulary.
+
+    This is what makes `rule_classes` and `invariants` consumed rather than
+    decorative: every mode must carry a declared rule class, and every declared
+    invariant must have exactly one mode that enforces it. A suite that names an
+    invariant it never checks is asserting something it has not earned.
+    """
+    errors: list[str] = []
+    if not FAILURE_MODES.is_file():
+        return [f"{FAILURE_MODES.name}: missing"]
+    try:
+        registry = json.loads(FAILURE_MODES.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        return [f"{FAILURE_MODES.name}: invalid JSON ({exc})"]
+
+    modes = registry.get("failure_modes", [])
+    routes = set(registry.get("routes", []))
+    classes = set(rules.get("rule_classes", []))
+    seen: set[str] = set()
+
+    for mode in modes:
+        identifier = mode.get("id", "")
+        if not FAILURE_MODE_ID_RE.fullmatch(identifier) or len(identifier) > 40:
+            errors.append(f"failure-modes.json: bad id {identifier!r}")
+        if identifier in seen:
+            errors.append(f"failure-modes.json: duplicate id {identifier!r}")
+        seen.add(identifier)
+        for field in ("title", "cause", "symptom", "fix"):
+            if not str(mode.get(field, "")).strip():
+                errors.append(f"failure-modes.json: {identifier} is missing {field}")
+        if mode.get("rule_class") not in classes:
+            errors.append(
+                f"failure-modes.json: {identifier} has rule_class {mode.get('rule_class')!r}, "
+                f"not one of {sorted(classes)}"
+            )
+
+    declared_invariants = set(rules.get("invariants", []))
+    enforced = [mode.get("invariant") for mode in modes if mode.get("invariant")]
+    enforced_set = set(enforced)
+    if len(enforced) != len(enforced_set):
+        errors.append("failure-modes.json: an invariant is claimed by more than one mode")
+    if enforced_set != declared_invariants:
+        missing = sorted(declared_invariants - enforced_set)
+        unknown = sorted(enforced_set - declared_invariants)
+        if missing:
+            errors.append(f"failure-modes.json: no mode enforces {missing}")
+        if unknown:
+            errors.append(f"failure-modes.json: unknown invariant referenced {unknown}")
+
+    for rule in registry.get("gate_rules", []):
+        name = rule.get("rule", "")
+        if rule.get("route") not in routes:
+            errors.append(f"failure-modes.json: rule {name!r} has unknown route {rule.get('route')!r}")
+        unknown_modes = sorted(set(rule.get("failure_modes", [])) - seen)
+        if unknown_modes:
+            errors.append(f"failure-modes.json: rule {name!r} names unknown modes {unknown_modes}")
+        if rule.get("route") == "retry" and not str(rule.get("correction", "")).strip():
+            errors.append(f"failure-modes.json: rule {name!r} routes retry but carries no correction")
+        if rule.get("route") == "ask" and not str(rule.get("question", "")).strip():
+            errors.append(f"failure-modes.json: rule {name!r} routes ask but carries no question")
+        if rule.get("route") == "load_skill" and not str(rule.get("skill", "")).strip():
+            errors.append(f"failure-modes.json: rule {name!r} routes load_skill but names no skill")
+
+    return errors
+
 def validate() -> list[str]:
     errors: list[str] = []
     rules = json.loads(RULES.read_text(encoding="utf-8"))
@@ -113,7 +182,16 @@ def validate() -> list[str]:
     if len(skill_dirs) != rules["skill_count"]:
         errors.append(f"expected {rules['skill_count']} skills, found {len(skill_dirs)}")
 
-    consumed_keys = {"skill_count", "frontmatter_keys", "shared_references", "documentation_only"}
+    errors.extend(check_failure_modes(rules))
+
+    consumed_keys = {
+        "skill_count",
+        "frontmatter_keys",
+        "shared_references",
+        "documentation_only",
+        "rule_classes",
+        "invariants",
+    }
     declared_documentation_only = set(rules.get("documentation_only", []))
     unconsumed_keys = set(rules) - consumed_keys
     if unconsumed_keys != declared_documentation_only:
@@ -164,6 +242,13 @@ def validate() -> list[str]:
                 resolved = (markdown.parent / target).resolve()
                 if not resolved.exists():
                     errors.append(f"{markdown}: broken relative link {match.group(1)!r}")
+                elif not resolved.is_relative_to(SKILLS.resolve()):
+                    # The installer copies skills/ alone, so a link that resolves above
+                    # skills/ exists here and dangles once installed.
+                    errors.append(
+                        f"{markdown}: link {match.group(1)!r} escapes the skills tree "
+                        "and will break once installed"
+                    )
             if SCAFFOLD_RE.search(text):
                 errors.append(f"{markdown}: unfinished scaffold marker")
 

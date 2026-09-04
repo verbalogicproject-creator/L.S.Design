@@ -171,7 +171,13 @@ The installer refuses to replace an existing skill by default. Use `--force` onl
 python scripts/install.py --force
 ```
 
-Skills are staged beside their destination, replaced atomically per skill, and checked against the canonical source checksum.
+Leave a skill uninstalled with `--skip`, repeated once per skill. This is useful when a project has no use for a skill's runtime, such as the studio:
+
+```sh
+python scripts/install.py --skip ls-design-studio
+```
+
+Skills are staged beside their destination, replaced atomically per skill, and checked against the canonical source checksum. Local tooling artifacts are excluded from both the copy and the checksum.
 
 ## Using a skill
 

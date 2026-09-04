@@ -128,6 +128,19 @@ The behavior field carries the most weight for performance. **Static** means mar
 
 For each content type, the fields it accepts: name, type, required or optional, maximum length, and **provenance**. A testimonial, a statistic, an award, or a customer logo must cite a real source. A field with no real source is left out of the build, not filled with something plausible.
 
+### Voice and action vocabulary
+
+Copy decisions are contract decisions. Recording them here is what stops each session re-inventing the tone, in the same way recorded palette roles stop it re-inventing the colors.
+
+Carry three things. **Voice** in one line: who the interface sounds like and what it never does. **Casing**, stated once and obeyed everywhere — heading case, label case, action case. And an **action vocabulary**: the verb for each recurring action, with the confirmation it produces, so the chain holds across the flow.
+
+| Action | Label | Confirmation | Used at |
+|---|---|---|---|
+| publish a draft | `Publish` | `Published` | editor, review dialog |
+| save a change | `Save changes` | `Saved` | every settings surface |
+
+One verb per intent across the whole product. Where the contract already names a verb, a later stage uses that verb rather than a synonym. Record the error and empty-state patterns here too when the product has recurring ones. Read [interface copy](../../ls-design/references/interface-copy.md) for the rules these fields record.
+
 ### States
 
 Loading, empty, error, offline, long content, and — for a bilingual or localized interface — text expansion.

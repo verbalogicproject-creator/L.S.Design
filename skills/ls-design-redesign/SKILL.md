@@ -34,3 +34,5 @@ Read [references/redesign-audit.md](references/redesign-audit.md) for the findin
 Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when the redesign targets generic styling, palette overuse, or loss of brand character. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) before replacing existing composition or introducing a layout dependency.
 
 Before building a new interface, check for `design/DESIGN.md` and obey it if present; if it is absent and this is new build work, run `ls-design-contract` first. Read [design contract](../ls-design/references/design-contract.md) for the full consumption rule, [core principles](../ls-design/references/core-principles.md) when the direction is new or two rules conflict, and [rtl foundations](../ls-design/references/rtl-foundations.md) whenever the work ships a right-to-left locale or a locale-portable component. For a final acceptance pass, hand the result to `ls-design-review`.
+
+Read [interface copy](../ls-design/references/interface-copy.md) when the audit finds generic headings, vague actions, or errors that name no next step.

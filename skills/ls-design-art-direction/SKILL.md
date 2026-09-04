@@ -33,3 +33,5 @@ Read [references/direction-families.md](references/direction-families.md) when e
 Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) before accepting a new visual world. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) when composition becomes a primary identity device or requires a layout dependency.
 
 Before building a new interface, check for `design/DESIGN.md` and obey it if present; if it is absent and this is new build work, run `ls-design-contract` first. Read [design contract](../ls-design/references/design-contract.md) for the full consumption rule, [core principles](../ls-design/references/core-principles.md) when the direction is new or two rules conflict, and [rtl foundations](../ls-design/references/rtl-foundations.md) whenever the work ships a right-to-left locale or a locale-portable component. For a final acceptance pass, hand the result to `ls-design-review`.
+
+Read [interface copy](../ls-design/references/interface-copy.md) so the words carry the same direction as the typography, imagery, and composition.

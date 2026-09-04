@@ -9,6 +9,7 @@ import os
 import shutil
 import sys
 import tempfile
+from collections.abc import Sequence
 from pathlib import Path
 
 
@@ -18,6 +19,9 @@ PROVIDER_DIRS = {
     "codex": Path(".agents") / "skills",
     "claude": Path(".claude") / "skills",
 }
+# Tooling artifacts that live beside the canonical bytes but are not part of a skill.
+# The copy and the checksum must agree on this set, or staging verification fails.
+EXCLUDED_NAMES = frozenset({".vouch", "__pycache__", ".pytest_cache", ".DS_Store"})
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -39,12 +43,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         type=Path,
         help="override the base directory; provider-relative paths are still appended",
     )
+    parser.add_argument(
+        "--skip",
+        action="append",
+        default=[],
+        metavar="NAME",
+        help="skill directory to leave uninstalled; repeatable",
+    )
     parser.add_argument("--dry-run", action="store_true", help="print changes without writing")
     parser.add_argument("--force", action="store_true", help="replace existing skill directories")
     return parser.parse_args(argv)
 
 
-def skill_sources() -> list[Path]:
+def skill_sources(skip: Sequence[str] = ()) -> list[Path]:
     sources = sorted(path for path in SOURCE_ROOT.iterdir() if path.is_dir())
     invalid = [path for path in sources if not (path / "SKILL.md").is_file()]
     if invalid:
@@ -52,13 +63,29 @@ def skill_sources() -> list[Path]:
         raise RuntimeError(f"invalid skill directories without SKILL.md: {names}")
     if not sources:
         raise RuntimeError(f"no skills found in {SOURCE_ROOT}")
-    return sources
+
+    requested = set(skip)
+    unknown = sorted(requested - {path.name for path in sources})
+    if unknown:
+        raise RuntimeError(f"cannot skip unknown skills: {', '.join(unknown)}")
+    selected = [path for path in sources if path.name not in requested]
+    if not selected:
+        raise RuntimeError("every skill was skipped; nothing to install")
+    return selected
+
+
+def is_excluded(relative: Path) -> bool:
+    """True when any path component is a tooling artifact rather than skill content."""
+    return any(part in EXCLUDED_NAMES for part in relative.parts)
 
 
 def directory_digest(root: Path) -> str:
     digest = hashlib.sha256()
     for path in sorted(item for item in root.rglob("*") if item.is_file()):
-        relative = path.relative_to(root).as_posix().encode("utf-8")
+        relative_path = path.relative_to(root)
+        if is_excluded(relative_path):
+            continue
+        relative = relative_path.as_posix().encode("utf-8")
         digest.update(len(relative).to_bytes(8, "big"))
         digest.update(relative)
         data = path.read_bytes()
@@ -89,7 +116,7 @@ def install_skill(source: Path, destination: Path, force: bool) -> None:
     backup: Path | None = None
     try:
         shutil.rmtree(staged)
-        shutil.copytree(source, staged)
+        shutil.copytree(source, staged, ignore=shutil.ignore_patterns(*EXCLUDED_NAMES))
         if directory_digest(source) != directory_digest(staged):
             raise RuntimeError(f"staging checksum mismatch for {source.name}")
 
@@ -123,7 +150,7 @@ def main(argv: list[str] | None = None) -> int:
     operations = [
         (source, base / PROVIDER_DIRS[provider] / source.name, provider)
         for provider in selected_providers(args.provider)
-        for source in skill_sources()
+        for source in skill_sources(args.skip)
     ]
 
     if args.dry_run:

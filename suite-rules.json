@@ -117,13 +117,28 @@
         "ls-design-systems",
         "ls-design-websites"
       ]
+    },
+    "interface_copy": {
+      "path": "skills/ls-design/references/interface-copy.md",
+      "consumers": [
+        "ls-design",
+        "ls-design-3d-web",
+        "ls-design-art-direction",
+        "ls-design-build",
+        "ls-design-contract",
+        "ls-design-landing-pages",
+        "ls-design-mobile",
+        "ls-design-redesign",
+        "ls-design-review",
+        "ls-design-studio",
+        "ls-design-systems",
+        "ls-design-websites"
+      ]
     }
   },
   "documentation_only": [
     "schema_version",
     "decision_order",
-    "rule_classes",
-    "invariants",
     "providers"
   ]
 }

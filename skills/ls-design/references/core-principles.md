@@ -23,7 +23,13 @@ Avoid turning every statement into a card. Containers should express grouping, i
 
 Preserve existing brand typography unless replacement is authorized. Assign explicit roles for display, heading, body, label, data, and code where applicable. Tune measure, leading, weight, and optical spacing for the actual typeface and viewport.
 
+Set measure deliberately. Continuous body text reads best under about 80 characters a line; a serif tolerates a slightly longer measure and wants slightly more leading than a sans at the same size. These are starting targets to tune against the actual typeface, not fixed values.
+
+When type acts as a headline or a visual element, treat the type treatment itself as part of the composition rather than a neutral carrier for the words.
+
 Do not load a named font without verifying it is available. Provide intentional fallbacks and avoid changing global font rules for an isolated component or visualization.
+
+Words are design content and belong to the same system as scale and spacing. Read [interface copy](interface-copy.md) before writing labels, actions, errors, or empty states.
 
 ## Color and materials
 

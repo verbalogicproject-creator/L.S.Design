@@ -68,3 +68,5 @@ Read [orchestration protocol](references/orchestration-protocol.md) for the full
 Read [core principles](../ls-design/references/core-principles.md) when a screen forces a direction decision the contract did not settle. Read [design contract](../ls-design/references/design-contract.md) for the artifact the studio operates on. Read [rtl foundations](../ls-design/references/rtl-foundations.md) before approving screens for a right-to-left locale. Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when judging whether generated screens are specific or generic. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) when a screen's composition needs more than the default grid.
 
 For a final acceptance pass on the built result, hand the work to `ls-design-review`.
+
+Read [interface copy](../ls-design/references/interface-copy.md) when judging whether the words on a generated screen are specific to the product or filler.

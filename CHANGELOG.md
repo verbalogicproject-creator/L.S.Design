@@ -4,6 +4,29 @@ All notable changes to L.S.Design are recorded in this file.
 
 The project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Dates use the `YYYY-MM-DD` format.
 
+## [2.1.0] - 2026-09-04
+
+### Added
+
+- `interface-copy.md`, a sixth shared reference consumed by all twelve skills: naming in user language, one verb per intent held across a flow, errors that name the next step, empty screens that direct rather than report, register and casing mechanics, and the rule that a number without a source is invented precision.
+- A voice and action-vocabulary section in the contract schema, so copy decisions are frozen per project and inherited downstream the way palette roles are.
+- A countable-observations table in `natural-color-and-humanization.md`, with thresholds and the named palette and display faces that generated design converged on. The rule class is unchanged: these are anti-pattern warnings, and the observation is mechanical while the verdict stays contextual.
+- Four named 3D anti-patterns in `production-3d.md`: a platform-string test standing in for a frame budget, a device-pixel-ratio cap pasted as policy, hover as an entire interaction model, and an animation loop with no motion-preference gate.
+- Thirteen scoring areas in `review-scorecard.md`, and interface copy as a review coverage area.
+- Measure and leading targets in the typography section of `core-principles.md`.
+- `scripts/install.py --skip NAME`, repeatable, to leave a named skill uninstalled.
+- `failure-modes.json`, a registry of design failure modes and gate rules, validated against the suite's own vocabulary: every mode carries a declared rule class, and every declared invariant is enforced by exactly one mode. `suite-rules.json` moves `rule_classes` and `invariants` out of documentation-only, since the validator now consumes them.
+
+### Fixed
+
+- `ls-design-review` linked the comparison test through a path that climbed above `skills/`. Because the installer copies `skills/` alone, that link resolved to nothing on every install, and the skill's stated scoring method was unreachable. The scoring areas now live inside the skill.
+- The installer copied tooling artifacts into user installs. Both the copy and the checksum now exclude them, and they must agree or staging verification fails.
+- `scripts/validate.py` validated the source layout rather than the installed one, which is why it never caught the broken link. It now rejects any relative link that escapes the skills tree, covered by a regression test that fails when the original bug is reintroduced.
+
+### Changed
+
+- Three motifs — tinted near-black over pure black, monospace for labels, and a trailing arrow on link text — are recorded as bundle members carrying their justifying condition, rather than as defects. Each is correct under that condition and generic without it.
+
 ## [2.0.0] - 2026-09-02
 
 

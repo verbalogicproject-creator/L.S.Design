@@ -70,6 +70,43 @@ class InstallerTests(unittest.TestCase):
             self.assertEqual(forced.returncode, 0, forced.stderr)
             self.assertFalse(marker.exists())
 
+    def test_tooling_artifacts_are_not_installed(self):
+        installer = load_installer()
+        source = installer.SOURCE_ROOT / "ls-design"
+        artifact = source / ".vouch" / "scratch.json"
+        artifact.parent.mkdir(parents=True, exist_ok=True)
+        artifact.write_text("{}", encoding="utf-8")
+        try:
+            with tempfile.TemporaryDirectory() as directory:
+                target = Path(directory)
+                result = self.run_installer("--provider", "codex", "--target", str(target))
+                self.assertEqual(result.returncode, 0, result.stderr)
+                installed = target / ".agents" / "skills" / "ls-design"
+                self.assertTrue((installed / "SKILL.md").is_file())
+                self.assertFalse((installed / ".vouch").exists())
+        finally:
+            artifact.unlink()
+            artifact.parent.rmdir()
+
+    def test_skip_leaves_a_skill_uninstalled(self):
+        installer = load_installer()
+        with tempfile.TemporaryDirectory() as directory:
+            target = Path(directory)
+            result = self.run_installer(
+                "--provider", "codex", "--target", str(target), "--skip", "ls-design-studio"
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            skills = target / ".agents" / "skills"
+            self.assertFalse((skills / "ls-design-studio").exists())
+            self.assertEqual(
+                len(list(skills.iterdir())), len(installer.skill_sources()) - 1
+            )
+
+    def test_skip_rejects_an_unknown_name(self):
+        installer = load_installer()
+        with self.assertRaises(RuntimeError):
+            installer.skill_sources(["not-a-skill"])
+
 
 if __name__ == "__main__":
     unittest.main()

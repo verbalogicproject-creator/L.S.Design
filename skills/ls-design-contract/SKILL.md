@@ -45,3 +45,5 @@ Author a screen the coding agent generates directly as token-driven. A baked scr
 Read [contract schema](references/contract-schema.md) for the full field list and the concept mapping across stacks. Read [preview artifact](references/preview-artifact.md) for the required preview sections and the verification protocol.
 
 Read [core principles](../ls-design/references/core-principles.md) when setting a new direction. Read [design contract](../ls-design/references/design-contract.md) for the consumption rule that binds every skill in this suite. Read [rtl foundations](../ls-design/references/rtl-foundations.md) whenever the project ships a right-to-left locale or a locale-portable component library. Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) when choosing the palette and checking specificity. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) when defining complex layout templates.
+
+Read [interface copy](../ls-design/references/interface-copy.md) when recording the project's voice and its action vocabulary in the contract.

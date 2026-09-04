@@ -70,3 +70,5 @@ Read [references/core-principles.md](references/core-principles.md) when setting
 For palette evidence and the required specificity check, read [references/natural-color-and-humanization.md](references/natural-color-and-humanization.md). For complex composition or layout-library selection, read [references/advanced-layout.md](references/advanced-layout.md).
 
 For the artifact every skill in this suite consumes and the rule that governs it, read [references/design-contract.md](references/design-contract.md). For any work that ships a right-to-left locale or a locale-portable component library, read [references/rtl-foundations.md](references/rtl-foundations.md).
+
+Read [interface copy](references/interface-copy.md) whenever the interface contains words, which is nearly always: labels, actions, errors, and empty states are design content, not decoration.

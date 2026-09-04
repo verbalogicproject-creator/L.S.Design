@@ -57,3 +57,5 @@ Read [vite react tailwind](references/vite-react-tailwind.md) for the default ta
 Read [core principles](../ls-design/references/core-principles.md) when the handoff leaves an implementation decision open. Read [design contract](../ls-design/references/design-contract.md) for how the handoff relates to the live contract. Read [rtl foundations](../ls-design/references/rtl-foundations.md) when the build ships a right-to-left locale. Read [natural color and humanization](../ls-design/references/natural-color-and-humanization.md) to check that the implementation kept the palette's evidence. Read [advanced layout decisions](../ls-design/references/advanced-layout.md) for complex composition inside an approved screen.
 
 For a final acceptance pass, hand the result to `ls-design-review`.
+
+Read [interface copy](../ls-design/references/interface-copy.md) when replacing fixture content with real copy or an explicit empty state.
