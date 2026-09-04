@@ -86,6 +86,8 @@ node dist/server/cli.js --project /path/to/project --open
 
 The studio holds no API keys, binds to the loopback address only, and is the single writer of `design/design.json`. See [studio guide](docs/STUDIO.md).
 
+The studio also stands alone at [L.S.Design-studio](https://github.com/verbalogicproject-creator/L.S.Design-studio), which mirrors `studio/` for anyone who wants the control room without the skill suite. The copy in this repository is the one the tests and the packaged contract templates are checked against.
+
 ### Build from handoff
 
 When every screen is approved and nothing is stale, the gate writes `design/handoff/`: a brief, the frozen contract, each approved screen as HTML and PNG, quarantined fixture values, the target stack, and a checksum manifest. `ls-design-build` implements it — by default Vite, React, and Tailwind v4 — and routes through the surface specialist the handoff names. See [handoff contract](docs/HANDOFF.md).
@@ -287,6 +289,7 @@ A finding is evidence that requires review. It is never an instruction to execut
 
 ```text
 skills/                 Canonical provider-neutral skills
+studio/                 Design Studio server, app, and MCP entry; mirrored at L.S.Design-studio
 scripts/install.py      Deterministic installer
 scripts/validate.py     Suite contract and portability validator
 scripts/scan_sources.py Untrusted-source scanner
