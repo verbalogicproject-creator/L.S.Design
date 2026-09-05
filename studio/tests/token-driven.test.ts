@@ -99,3 +99,63 @@ describe("token-driven screens and token edits", () => {
     expect(after(baked.id)?.staleTokens).toBe(true);
   });
 });
+
+describe("the gate stamp after the design moves on", () => {
+  /*
+    Found by revising an approved screen on a real project: computeGate derived
+    canPass freshly and correctly, but gates.screens.passed, status, and the
+    recorded handoff digest were stamped at export time and nothing un-stamped
+    them. A consumer reading gates.screens.passed would have built from a
+    handoff describing screens that no longer existed.
+  */
+  it("invalidates a passed gate when an approved screen is revised", async () => {
+    const { screen } = await add(CLEAN, true);
+    await service.setDecision({ screenId: screen.id, state: "approved", by: "human" });
+    await service.recordGate(true, "a".repeat(64));
+
+    let state = service.state();
+    expect(state.gates.screens.passed).toBe(true);
+    expect(state.status).toBe("approved");
+
+    await service.updateScreen({
+      screenId: screen.id,
+      htmlBase64: Buffer.from(CLEAN.replace("Orbit One", "Orbit One II")).toString("base64"),
+    });
+
+    state = service.state();
+    expect(state.gates.screens.passed).toBe(false);
+    expect(state.gates.screens.handoffSha256).toBeUndefined();
+    expect(state.status).toBe("screens");
+    expect(service.gate().canPass).toBe(false);
+  });
+
+  it("invalidates a passed gate when a screen is rejected", async () => {
+    const { screen } = await add(CLEAN, true);
+    await service.setDecision({ screenId: screen.id, state: "approved", by: "human" });
+    await service.recordGate(true, "b".repeat(64));
+    expect(service.state().gates.screens.passed).toBe(true);
+
+    await service.setDecision({ screenId: screen.id, state: "rejected", notes: "no", by: "human" });
+    expect(service.state().gates.screens.passed).toBe(false);
+    expect(service.state().status).toBe("screens");
+  });
+
+  it("invalidates a passed gate when a new screen is added", async () => {
+    const { screen } = await add(CLEAN, true);
+    await service.setDecision({ screenId: screen.id, state: "approved", by: "human" });
+    await service.recordGate(true, "c".repeat(64));
+    expect(service.state().gates.screens.passed).toBe(true);
+
+    await add(CLEAN, true);
+    expect(service.state().gates.screens.passed).toBe(false);
+  });
+
+  it("leaves the stamp alone when a screen is approved", async () => {
+    const { screen } = await add(CLEAN, true);
+    await service.setDecision({ screenId: screen.id, state: "approved", by: "human" });
+    await service.recordGate(true, "d".repeat(64));
+    // Approving again must not tear down a stamp it did not invalidate.
+    await service.setDecision({ screenId: screen.id, state: "approved", by: "human" });
+    expect(service.state().gates.screens.passed).toBe(true);
+  });
+});

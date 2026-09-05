@@ -1,5 +1,5 @@
 import { existsSync } from "node:fs";
-import { mkdir } from "node:fs/promises";
+import { mkdir, readFile } from "node:fs/promises";
 
 import { StudioError } from "../shared/schema.ts";
 import { slugify } from "../shared/ids.ts";
@@ -68,18 +68,38 @@ export async function initProject(options: InitOptions): Promise<InitResult> {
   await mkdir(designDir(root), { recursive: true });
   await mkdir(screensDir(root), { recursive: true });
 
-  const name = options.name ?? "Untitled project";
+  /*
+    A contract that already exists is authoritative. Someone else wrote it -
+    ls-design-plan, a teammate, a cloned repo - so its own name and description
+    are read from it rather than replaced by a default. This is what lets the
+    studio adopt a design instead of only ever creating one.
+  */
+  const designPath = designMdPath(root);
+  const adopting = existsSync(designPath) && !options.force;
+  let name = options.name ?? "Untitled project";
+  let description = options.description;
+
+  if (adopting) {
+    const contract = parseDesignMd(await readFile(designPath, "utf8"));
+    const declaredName = contract.frontmatter.name;
+    const declaredDescription = contract.frontmatter.description;
+    if (typeof declaredName === "string" && declaredName.trim().length > 0) {
+      name = options.name ?? declaredName.trim();
+    }
+    if (typeof declaredDescription === "string" && declaredDescription.trim().length > 0) {
+      description = options.description ?? declaredDescription.trim();
+    }
+  }
   const slug = slugify(name, "project");
 
-  const designPath = designMdPath(root);
-  if (existsSync(designPath) && !options.force) {
+  if (adopting) {
     existing.push("DESIGN.md");
   } else {
     const template = await readTemplate("DESIGN.template.md");
     const filled = fillTemplate(template, {
       ...TEMPLATE_DEFAULTS,
       project_name: name,
-      ...(options.description ? { project_description: options.description } : {}),
+      ...(description ? { project_description: description } : {}),
     });
     const document = parseDesignMd(filled);
     await writeDesignMd(designPath, document);

@@ -34,7 +34,7 @@ import {
   tailwindThemePath,
   tokensCssPath,
 } from "../shared/paths.ts";
-import { DesignStore, computeGate, joinDesign } from "./store.ts";
+import { DesignStore, computeGate, joinDesign, type MutationContext } from "./store.ts";
 import { mergeTokens, readDesignMd, serializeDesignMd, writeDesignMd, writeFileAtomic } from "./design-md.ts";
 import { readTemplate, renderPreview } from "./preview.ts";
 
@@ -219,6 +219,20 @@ export class StudioService {
     );
   }
 
+  /**
+   * The gate stamp records that one specific set of approved screens was
+   * exported. Any change to that set makes the stamp a lie, and a consumer
+   * reading `gates.screens.passed` would build from a handoff that no longer
+   * matches the design. `computeGate` already derives `canPass` freshly; this
+   * keeps the stored half honest too.
+   */
+  private invalidateGateStamp(context: MutationContext, reason: string): void {
+    if (!context.state.gates.screens.passed) return;
+    context.state.gates.screens = { passed: false };
+    if (context.state.status === "approved") context.state.status = "screens";
+    context.emit("gate_invalidated", { reason });
+  }
+
   async addScreen(input: AddScreenInput): Promise<{ screen: Screen; rev: number }> {
     const html = await this.loadHtml(input);
     const png = await this.loadPng(input);
@@ -259,6 +273,7 @@ export class StudioService {
       // Stamped inside the mutation so it always matches the committed tokens.
       screen.capturedTokensHash = context.state.tokensHash;
       context.state.screens.push(screen);
+      this.invalidateGateStamp(context, "a screen was added after the gate passed");
       if (context.state.status === "draft" || context.state.status === "direction") {
         context.state.status = "screens";
       }
@@ -300,7 +315,10 @@ export class StudioService {
     const result = await this.store.mutate((context) => {
       const index = context.state.screens.findIndex((screen) => screen.id === input.screenId);
       if (index === -1) throw new StudioError("E_SCREEN_NOT_FOUND", `no screen ${input.screenId}`);
-      if (html || png) current.capturedTokensHash = context.state.tokensHash;
+      if (html || png) {
+        current.capturedTokensHash = context.state.tokensHash;
+        this.invalidateGateStamp(context, "a screen was revised after the gate passed");
+      }
       context.state.screens[index] = current;
       context.emit("screen_updated", { screenId: current.id, revision: current.revision });
       return undefined;
@@ -326,6 +344,9 @@ export class StudioService {
       if (!screen) throw new StudioError("E_SCREEN_NOT_FOUND", `no screen ${input.screenId}`);
       const notes = input.notes ?? "";
       screen.decision = { state: input.state, notes, at, by: input.by };
+      if (input.state !== "approved") {
+        this.invalidateGateStamp(context, "a screen was rejected after the gate passed");
+      }
       context.state.approvals.push({
         at,
         screenId: screen.id,

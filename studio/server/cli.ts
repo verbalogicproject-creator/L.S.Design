@@ -3,7 +3,7 @@ import { existsSync } from "node:fs";
 import { resolve } from "node:path";
 
 import { StudioError } from "../shared/schema.ts";
-import { designMdPath, handoffDir, lockPath } from "../shared/paths.ts";
+import { designJsonPath, designMdPath, handoffDir, lockPath } from "../shared/paths.ts";
 import { startServer } from "./http.ts";
 import { startMcp } from "./mcp.ts";
 import { initProject } from "./init.ts";
@@ -162,8 +162,23 @@ async function commandInit(flags: Flags): Promise<number> {
   return 0;
 }
 
+/**
+ * Makes a folder openable. A design authored elsewhere - by ls-design-plan, by
+ * a teammate, by a cloned repo - arrives as a DESIGN.md with no sidecar beside
+ * it. Refusing that is the wrong front door for a tool whose whole premise is
+ * "load a design and render it", so the sidecar is derived from the contract
+ * instead. Nothing authored is overwritten: init keeps every existing file.
+ */
+async function adoptIfNeeded(projectRoot: string): Promise<void> {
+  if (existsSync(designJsonPath(projectRoot))) return;
+  if (!existsSync(designMdPath(projectRoot))) return;
+  const result = await initProject({ projectRoot });
+  console.log(`adopted design/DESIGN.md - created ${result.created.join(", ")}`);
+}
+
 async function commandServe(flags: Flags): Promise<number> {
   requireDesignMd(flags.project);
+  await adoptIfNeeded(flags.project);
   const portValue = flags.values.get("port");
   const server = await startServer({
     projectRoot: flags.project,
@@ -179,6 +194,7 @@ async function commandServe(flags: Flags): Promise<number> {
 }
 
 async function commandMcp(flags: Flags): Promise<number> {
+  await adoptIfNeeded(flags.project);
   const portValue = flags.values.get("port");
   await startMcp({
     projectRoot: flags.project,
@@ -265,7 +281,12 @@ async function commandDoctor(flags: Flags): Promise<number> {
         `gate          ${gate.canPass ? "ready" : `blocked (${gate.pending.length} pending, ${gate.rejected.length} rejected, ${gate.stale.length} stale, ${gate.pendingReapply} reapply)`}`,
       );
     } catch (error) {
-      console.log(`state         unreadable: ${error instanceof Error ? error.message : String(error)}`);
+      // Doctor is read-only, so it reports adoptability rather than adopting.
+      if (existsSync(designMdPath(flags.project)) && !existsSync(designJsonPath(flags.project))) {
+        console.log("state         adoptable: a contract is present with no sidecar; serving will adopt it");
+      } else {
+        console.log(`state         unreadable: ${error instanceof Error ? error.message : String(error)}`);
+      }
     }
   }
   return chromium ? 0 : 0;
