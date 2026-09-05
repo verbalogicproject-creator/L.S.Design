@@ -12,6 +12,7 @@ import {
   tokensCssPath,
 } from "../../shared/paths.ts";
 import { sha256 } from "../../shared/hash.ts";
+import { relinkDesignStylesheets } from "../../shared/screen-links.ts";
 import { computeGate, joinDesign, type DesignStore } from "../store.ts";
 import { detectFixtures } from "./fixtures.ts";
 import { renderBrief } from "./brief.ts";
@@ -89,7 +90,15 @@ export async function exportHandoff(store: DesignStore, options: ExportOptions =
 
     const htmlRelative = safeRelative(`${screenDirRelative}/code.html`);
     const pngRelative = safeRelative(`${screenDirRelative}/screen.png`);
-    await writeFile(join(dir, htmlRelative), htmlContent, "utf8");
+    /*
+      The handoff flattens the revision directory away, so a screen sits one
+      level shallower here than in storage. Relink it against the frozen
+      tokens.css copied above; left alone the stored href climbs out of the
+      handoff and resolves to the live design/tokens.css, which is the drift a
+      frozen snapshot exists to prevent.
+    */
+    const linkedHtml = relinkDesignStylesheets(htmlContent, htmlRelative);
+    await writeFile(join(dir, htmlRelative), linkedHtml, "utf8");
     await writeFile(join(dir, pngRelative), pngContent);
 
     const findings = detectFixtures(htmlContent);

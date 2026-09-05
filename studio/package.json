@@ -1,6 +1,6 @@
 {
   "name": "ls-design-studio",
-  "version": "2.0.0",
+  "version": "2.1.1",
   "description": "Local design control room for L.S.Design: review generated screens, approve them, and release an approved handoff to the builder.",
   "license": "Apache-2.0",
   "type": "module",

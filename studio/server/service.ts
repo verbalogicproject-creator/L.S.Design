@@ -15,6 +15,7 @@ import {
 } from "../shared/schema.ts";
 import { newId, slugify, uniqueSlug } from "../shared/ids.ts";
 import { describeFindings, lintTokenDrivenHtml } from "../shared/screen-lint.ts";
+import { relinkDesignStylesheets } from "../shared/screen-links.ts";
 import { sha256 } from "../shared/hash.ts";
 import { evaluatePairs, type ContrastResult } from "../shared/contrast.ts";
 import {
@@ -464,7 +465,14 @@ export class StudioService {
   private async writeRevision(slug: string, revision: number, html: Buffer, png: Buffer): Promise<void> {
     const directory = revisionDir(this.projectRoot, slug, revision);
     await mkdir(directory, { recursive: true });
-    await writeFile(join(directory, "code.html"), html);
+    /*
+      The author linked tokens.css from wherever they wrote the screen; it lands
+      three levels deeper than that. Repair the href against the path being
+      written, because this is the first point where that path is known.
+    */
+    const relative = revisionRelative(slug, revision, "code.html");
+    const linked = relinkDesignStylesheets(html.toString("utf8"), relative);
+    await writeFile(join(directory, "code.html"), linked, "utf8");
     await writeFile(join(directory, "screen.png"), png);
   }
 

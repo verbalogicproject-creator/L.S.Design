@@ -10,7 +10,7 @@ A baked screen is produced by an external screen-generation service — Google S
 
 ## Rules for a token-driven screen
 
-- Link `design/tokens.css` with a relative `<link>` in the document head. Do not inline a copy of the tokens — the whole point is that the same file backs the studio, this screen, and eventually the build.
+- Link `design/tokens.css` with a relative `<link>` in the document head. Do not inline a copy of the tokens — the whole point is that the same file backs the studio, this screen, and eventually the build. Write the link as it is correct from wherever the file is authored, and do not try to guess where the studio will store it: the studio moves the screen into a revision directory and repairs the depth of that link as it writes, and repairs it again, to the frozen copy, when the screen is exported into a handoff. This applies equally to `fonts.css` and `tailwind.theme.css` when a screen links them.
 - Every color, type size, weight, line height, letter spacing, radius, and spacing value resolves through a `var(--ls-*)` custom property. A hex literal, an `rgb()` or `hsl()` literal, or a bare pixel size where a token exists is a defect, not a shortcut.
 - No remote font and no font-service link. If the contract's typography names a font family, self-host it or fall back to the system stack named alongside it in `tokens.css`.
 - No CDN script or stylesheet. The screen is self-contained apart from the one relative link to `tokens.css`, so it renders identically offline and inside the studio's canvas.
